@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Active Intelligence — ActiveCampaign UI Prototype</title>
+<style>
+:root{
+  --nav:#0b1022; --nav2:#11183009; --bar:#0b1022; --blue:#2f6bed; --blue2:#1f53c4;
+  --ink:#1b2333; --muted:#64748b; --line:#e6ebf2; --bg:#f5f7fb; --card:#fff;
+  --purple:#6E5AA6; --mauve:#A8557A; --campaign:#2E75B6; --teal:#16895a; --gold:#b5841f;
+  --good:#16895a; --warn:#c9821f; --bad:#c44536; --chip:#eef2f9;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Arial,sans-serif;background:var(--bg);color:var(--ink);
+  -webkit-font-smoothing:antialiased;font-size:14px}
+.app{display:grid;grid-template-columns:62px 1fr;height:100vh;overflow:hidden}
+
+/* ---- Left nav rail ---- */
+.rail{background:var(--nav);display:flex;flex-direction:column;align-items:center;padding:10px 0;gap:4px;z-index:30}
+.logo{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,#3b78ff,#1f53c4);color:#fff;display:flex;
+  align-items:center;justify-content:center;font-weight:800;font-size:20px;margin-bottom:12px}
+.nico{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#8590ad;
+  cursor:pointer;transition:.15s;position:relative}
+.nico svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.8}
+.nico:hover{background:#1a2240;color:#cdd6ee}
+.nico.active{background:var(--blue);color:#fff}
+.nico .tip{position:absolute;left:52px;top:50%;transform:translateY(-50%);background:#1a2240;color:#e7ecf8;font-size:12px;
+  padding:5px 9px;border-radius:6px;white-space:nowrap;opacity:0;pointer-events:none;transition:.12s;z-index:60}
+.nico:hover .tip{opacity:1}
+.rail .spacer{flex:1}
+
+/* ---- Top bar ---- */
+.main{display:flex;flex-direction:column;min-width:0}
+.topbar{height:54px;background:var(--bar);display:flex;align-items:center;gap:14px;padding:0 16px;color:#cdd6ee;z-index:20}
+.tb-title{font-weight:700;color:#fff;font-size:15px;display:flex;align-items:center;gap:9px}
+.tb-title .dot{width:7px;height:7px;border-radius:50%;background:#7c5cff;box-shadow:0 0 10px #7c5cff}
+.tb-spacer{flex:1}
+.trial{background:#171f3d;border:1px solid #28315c;border-radius:9px;padding:5px 8px 5px 12px;font-size:12.5px;color:#c3cdec;display:flex;align-items:center;gap:10px}
+.trial b{color:#fff}
+.trial .up{background:var(--blue);color:#fff;border:none;border-radius:6px;padding:5px 11px;font-weight:700;font-size:12px;cursor:pointer}
+.roleswitch{display:flex;background:#171f3d;border:1px solid #28315c;border-radius:9px;padding:3px;gap:2px}
+.roleswitch button{background:none;border:none;color:#9aa6c9;font-size:12px;font-weight:600;padding:5px 10px;border-radius:6px;cursor:pointer}
+.roleswitch button.on{background:var(--blue);color:#fff}
+.iconbtn{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#aab4d4;cursor:pointer;position:relative}
+.iconbtn:hover{background:#171f3d;color:#fff}
+.iconbtn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8}
+.badge{position:absolute;top:3px;right:3px;background:var(--bad);color:#fff;font-size:9px;font-weight:800;border-radius:9px;min-width:15px;height:15px;display:flex;align-items:center;justify-content:center;padding:0 3px}
+.avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#f0a05a,#d8417e);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px}
+
+/* ---- View area ---- */
+.view{flex:1;overflow:auto}
+
+/* HOME hero */
+.hero{background:linear-gradient(118deg,#e8763a 0%,#d8417e 36%,#a93b95 58%,#5b43c9 100%);padding:34px 30px 30px;color:#fff;position:relative}
+.hero .brandkit{position:absolute;top:18px;left:50%;transform:translateX(-50%);background:#1b1f4a;border:1px solid #ffffff33;
+  color:#fff;border-radius:20px;padding:7px 15px;font-size:13px;font-weight:600;display:flex;gap:7px;align-items:center}
+.hero h1{text-align:center;font-size:40px;font-weight:800;margin:46px 0 22px;letter-spacing:-.5px}
+.promptbox{max-width:720px;margin:0 auto;background:#0c1020ee;border:1px solid #ffffff22;border-radius:16px;padding:16px 16px 12px}
+.promptbox .ph{color:#aab4d4;font-size:15px;min-height:26px}
+.promptrow{display:flex;align-items:center;gap:8px;margin-top:10px}
+.promptrow .pill{background:#1a2140;border:1px solid #2a3358;color:#c3cdec;border-radius:8px;padding:6px 11px;font-size:12.5px;display:flex;gap:6px;align-items:center;cursor:pointer}
+.promptrow .send{margin-left:auto;width:34px;height:34px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.heroactions{display:flex;gap:12px;justify-content:center;margin-top:16px}
+.heroactions .ha{background:#0c102099;border:1px solid #ffffff2b;color:#fff;border-radius:10px;padding:9px 16px;font-size:13.5px;font-weight:600;cursor:pointer;display:flex;gap:8px;align-items:center}
+
+/* content sections */
+.section{padding:24px 30px}
+.section.tight{padding:8px 30px 24px}
+.sec-h{display:flex;align-items:center;gap:10px;margin:6px 0 4px}
+.sec-h h2{font-size:18px;margin:0;font-weight:800}
+.sec-h .ai{background:linear-gradient(135deg,#7c5cff,#d8417e);color:#fff;font-size:10px;font-weight:800;border-radius:20px;padding:3px 9px;letter-spacing:.4px}
+.sec-sub{color:var(--muted);font-size:13px;margin:0 0 16px}
+
+/* proactive campaign cards */
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:1080px){.cards{grid-template-columns:1fr}}
+.pcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:0;overflow:hidden;box-shadow:0 1px 3px rgba(20,40,80,.05);transition:.18s}
+.pcard:hover{box-shadow:0 6px 20px rgba(20,40,80,.10);transform:translateY(-1px)}
+.pc-top{padding:15px 17px 12px;border-bottom:1px solid var(--line)}
+.pc-flag{display:flex;align-items:center;gap:8px;margin-bottom:9px}
+.flag{font-size:10px;font-weight:800;border-radius:20px;padding:3px 9px;letter-spacing:.4px;text-transform:uppercase}
+.flag.pro{background:#efe9ff;color:#6034d6}
+.flag.urgent{background:#fdece9;color:#c44536}
+.flag.rev{background:#e6f5ee;color:#16895a}
+.conf{margin-left:auto;font-size:11.5px;color:var(--muted)}
+.conf b{color:var(--ink)}
+.pc-title{font-size:16.5px;font-weight:800;margin:2px 0 8px;line-height:1.25}
+.trigger{display:flex;gap:8px;align-items:flex-start;background:#f7f9fc;border:1px solid var(--line);border-radius:9px;padding:9px 11px;font-size:12.8px;color:#3a4659}
+.trigger .ic{color:var(--blue);flex-shrink:0}
+.pc-body{padding:13px 17px}
+.glabel{font-size:10.5px;font-weight:800;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+.gchips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:6px}
+.gchip{font-size:11.5px;border-radius:8px;padding:5px 9px;display:flex;gap:6px;align-items:center;border:1px solid var(--line);background:#fff}
+.gchip .lyr{width:8px;height:8px;border-radius:2px}
+.gchip b{font-variant-numeric:tabular-nums}
+.tier{font-size:11px;font-weight:700;color:#b9701d;background:#fdf3e4;border:1px solid #f0d9b4;border-radius:8px;padding:5px 9px}
+.lift{display:flex;align-items:baseline;gap:8px;margin:12px 0 4px}
+.lift .n{font-size:24px;font-weight:800;color:var(--good)}
+.lift .l{font-size:12.5px;color:var(--muted)}
+.action{font-size:13px;color:#33405a;background:#f0f5ff;border-left:3px solid var(--blue);border-radius:0 7px 7px 0;padding:8px 11px;margin-top:8px}
+.pc-foot{display:flex;gap:9px;padding:12px 17px;border-top:1px solid var(--line);align-items:center}
+.btn{border:none;border-radius:9px;padding:9px 14px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit}
+.btn.primary{background:var(--blue);color:#fff}.btn.primary:hover{background:var(--blue2)}
+.btn.ghost{background:#fff;color:#33405a;border:1px solid var(--line)}.btn.ghost:hover{background:#f3f6fb}
+.btn.link{background:none;color:var(--blue);padding:9px 6px}
+.dismiss{margin-left:auto;color:var(--muted);background:none;border:none;cursor:pointer;font-size:12.5px}
+.why{display:none;border-top:1px dashed var(--line);background:#0c1020;color:#cfdaf0;padding:14px 17px}
+.why.open{display:block}
+.why .wl{font-size:10.5px;font-weight:800;color:#7fb2e8;letter-spacing:.6px;text-transform:uppercase;margin-bottom:7px}
+.why .narr{font-size:13px;line-height:1.6;color:#dfe7f5;margin-bottom:12px}
+.why .narr b{color:#fff}
+.scorerow{display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:6px 0;border-top:1px solid #1d2742}
+.scorerow .sc-n{font-family:Consolas,monospace;font-weight:700;color:#7fe8b0}
+.scorerow .sc-m{color:#8da3c8;font-size:11px}
+
+/* REPORTS */
+.rep{display:grid;grid-template-columns:222px 1fr;min-height:100%}
+.subnav{background:#fff;border-right:1px solid var(--line);padding:16px 10px}
+.subnav h3{font-size:17px;margin:4px 8px 14px;font-weight:800}
+.subnav .grp{font-size:12px;color:#33405a;font-weight:700;padding:8px;display:flex;justify-content:space-between;cursor:pointer;border-radius:7px}
+.subnav .grp:hover{background:#f3f6fb}
+.subnav .it{font-size:12.5px;color:#56627a;padding:7px 8px 7px 18px;border-radius:7px;cursor:pointer}
+.subnav .it:hover{background:#f3f6fb}
+.subnav .it.on{background:#eaf1ff;color:var(--blue);font-weight:700}
+.repmain{padding:22px 26px;overflow:auto}
+.repmain .crumbs{font-size:12px;color:var(--muted);margin-bottom:6px}
+.repmain h1{font-size:22px;margin:0 0 4px}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 18px}
+.filt{background:#fff;border:1px solid var(--line);border-radius:8px;padding:7px 11px;font-size:12.5px;color:#33405a;display:flex;gap:7px;align-items:center;cursor:pointer}
+.filt.range{margin-left:auto}
+
+/* freeform overview */
+.overview{background:linear-gradient(135deg,#101a36,#1a2444);color:#e8eefb;border-radius:14px;padding:18px 20px;margin-bottom:18px;position:relative}
+.overview .ai{position:absolute;top:16px;right:18px}
+.overview h4{margin:0 0 6px;font-size:13px;color:#9fc0ee;font-weight:700;letter-spacing:.3px}
+.overview p{margin:0 0 10px;font-size:14px;line-height:1.65}
+.overview p:last-child{margin:0}
+.overview b{color:#fff}
+.overview .hl{color:#ffd27f;font-weight:700}
+.overview .gd{color:#7fe8b0;font-weight:700}
+.overview .bd{color:#ff9d8e;font-weight:700}
+
+/* layer panels */
+.layers{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+@media(max-width:1000px){.layers{grid-template-columns:1fr}}
+.lpanel{background:#fff;border:1px solid var(--line);border-radius:13px;overflow:hidden}
+.lp-head{padding:11px 14px;color:#fff;font-weight:800;font-size:13.5px;display:flex;align-items:center;gap:8px}
+.lp-body{padding:13px 14px}
+.metric{margin-bottom:13px}
+.metric .mt{font-size:12px;color:#56627a;display:flex;justify-content:space-between}
+.metric .mv{display:flex;align-items:baseline;gap:8px;margin:2px 0 5px}
+.metric .mv .big{font-size:21px;font-weight:800}
+.metric .mv .chg{font-size:12px;font-weight:700}
+.bar{height:7px;background:#eef2f7;border-radius:6px;overflow:hidden}
+.bar > i{display:block;height:100%;border-radius:6px}
+.ground{font-size:11.3px;color:#6b7890;margin-top:6px;display:flex;gap:6px;align-items:flex-start;cursor:pointer}
+.ground .gi{color:var(--gold);flex-shrink:0}
+.ground:hover{color:#33405a}
+.gdetail{display:none;margin-top:7px;background:#0c1020;color:#cfdaf0;border-radius:8px;padding:9px 11px;font-size:11.5px;line-height:1.55}
+.gdetail.open{display:block}
+.gdetail code{color:#7fe8b0;font-family:Consolas,monospace}
+.gdetail .mt{color:#8da3c8}
+
+/* notifications drawer */
+.scrim{position:fixed;inset:0;background:#0009;opacity:0;pointer-events:none;transition:.2s;z-index:40}
+.scrim.open{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:-380px;width:370px;height:100vh;background:#fff;z-index:50;transition:.25s;box-shadow:-8px 0 30px #0003;display:flex;flex-direction:column}
+.drawer.open{right:0}
+.dw-h{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.dw-h h3{margin:0;font-size:16px;font-weight:800;flex:1}
+.dw-h .x{cursor:pointer;color:var(--muted);font-size:20px;line-height:1}
+.dw-role{font-size:11.5px;color:var(--muted);padding:8px 18px;background:#f7f9fc;border-bottom:1px solid var(--line)}
+.dw-role b{color:var(--blue)}
+.dwlist{overflow:auto;padding:8px 0}
+.note{padding:12px 18px;border-bottom:1px solid #f0f3f8;display:flex;gap:11px;cursor:pointer}
+.note:hover{background:#f7f9fc}
+.note .ni{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px}
+.note .nt{font-size:13px;font-weight:700;margin-bottom:2px}
+.note .nd{font-size:12px;color:#56627a;line-height:1.45}
+.note .nm{font-size:11px;color:var(--muted);margin-top:4px}
+
+/* placeholder views */
+.placeholder{padding:60px 30px;text-align:center;color:var(--muted)}
+.placeholder .pi{font-size:40px;margin-bottom:10px;opacity:.5}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:#0c1020;color:#fff;padding:12px 18px;border-radius:10px;font-size:13px;opacity:0;transition:.25s;z-index:70;box-shadow:0 8px 24px #0004}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- NAV RAIL -->
+  <nav class="rail">
+    <div class="logo">›</div>
+    <div class="nico active" data-view="home"><span class="tip">Home · Active Intelligence</span>{ICO_home}</div>
+    <div class="nico" data-view="ph-contacts"><span class="tip">Contacts</span>{ICO_user}</div>
+    <div class="nico" data-view="ph-automations"><span class="tip">Automations</span>{ICO_flow}</div>
+    <div class="nico" data-view="ph-email"><span class="tip">Campaigns</span>{ICO_mail}</div>
+    <div class="nico" data-view="ph-wa"><span class="tip">WhatsApp</span>{ICO_chat}</div>
+    <div class="nico" data-view="reports"><span class="tip">Reports</span>{ICO_chart}</div>
+    <div class="spacer"></div>
+    <div class="nico" data-view="ph-settings"><span class="tip">Settings</span>{ICO_gear}</div>
+  </nav>
+
+  <div class="main">
+    <!-- TOP BAR -->
+    <div class="topbar">
+      <div class="tb-title"><span class="dot"></span> <span id="viewTitle">Active Intelligence</span></div>
+      <div class="tb-spacer"></div>
+      <div class="roleswitch" id="roleSwitch">
+        <button data-role="manager" class="on">Marketing Mgr</button>
+        <button data-role="exec">Executive</button>
+        <button data-role="analyst">Analyst</button>
+      </div>
+      <div class="trial">You have <b>9 days</b> left in your trial <button class="up">Upgrade now</button></div>
+      <div class="iconbtn" id="bellBtn">{ICO_bell}<span class="badge" id="bellBadge">3</span></div>
+      <div class="avatar">AH</div>
+    </div>
+
+    <!-- VIEW -->
+    <div class="view" id="view"></div>
+  </div>
+</div>
+
+<!-- Notifications drawer -->
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer">
+  <div class="dw-h"><h3>Proactive alerts</h3><span class="x" id="dwClose">&times;</span></div>
+  <div class="dw-role" id="dwRole"></div>
+  <div class="dwlist" id="dwList"></div>
+</aside>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ---------- icons ---------- */
+const ICO={
+  home:'<svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>',
+  user:'<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>',
+  flow:'<svg viewBox="0 0 24 24"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="15" width="6" height="6" rx="1"/><path d="M9 6h6a3 3 0 0 1 3 3v6"/></svg>',
+  mail:'<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>',
+  chat:'<svg viewBox="0 0 24 24"><path d="M21 11.5a8 8 0 0 1-11.5 7.2L4 20l1.3-4.5A8 8 0 1 1 21 11.5z"/></svg>',
+  chart:'<svg viewBox="0 0 24 24"><path d="M4 20V4"/><path d="M4 20h16"/><rect x="7" y="11" width="3" height="6"/><rect x="12" y="7" width="3" height="10"/><rect x="17" y="13" width="3" height="4"/></svg>',
+  gear:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg>',
+  bell:'<svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>',
+};
+let tpl=document.body.innerHTML;
+Object.keys(ICO).forEach(k=>tpl=tpl.replaceAll('{ICO_'+k+'}',ICO[k]));
+document.body.innerHTML=tpl;
+
+/* ---------- data ---------- */
+const LYR={content:'#6E5AA6',campaign:'#2E75B6',individual:'#A8557A'};
+
+const ROLE_LABEL={manager:'Marketing Manager',exec:'Executive',analyst:'Analyst'};
+
+const CAMPAIGNS=[
+ {
+  id:'c1', flag:'urgent', flagText:'Retention risk', conf:0.86,
+  title:'Win back over-mailed mid-tier accounts before renewal',
+  trigger:'Cross-layer signal: 62% of at-risk accounts are over-mailed (>4/wk) AND price-sensitive — churn 2.3× baseline.',
+  chips:[{l:'content',t:'Content fit',v:'0.71'},{l:'campaign',t:'Goal success',v:'0.83'},{l:'individual',t:'Channel affinity SMS',v:'0.79'}],
+  tier:'Industry model',
+  lift:'+18 pts', liftLabel:'predicted retention on the at-risk cohort',
+  action:'Cap email at 1/wk for this cohort, move the renewal nudge to SMS, attach a loyalty offer.',
+  why:{
+   narr:'Engagement didn’t fall because the offer is weak — it fell because your <b>highest-value accounts are fatigued</b>. The cross-layer engine joined the <b>Individual layer</b> (email-fatigue + SMS affinity) with the <b>Campaign layer</b> (loyalty-lever success score) and the <b>Content layer</b> (which creative scores for this cohort). The recommendation is the action the scores most support — not a generic best practice.',
+   scores:[
+    {n:'0.83',m:'Campaign layer · Goal→Automation success (loyalty lever, Industry model + Gradient Boosting)'},
+    {n:'0.79',m:'Individual layer · SMS channel affinity for at-risk cohort'},
+    {n:'0.71',m:'Content layer · Predictive Cohort Impact for loyalty creative'},
+    {n:'-0.34',m:'cMAB · marginal value of an additional broadcast email (negative)'},
+   ]
+  }
+ },
+ {
+  id:'c2', flag:'rev', flagText:'Revenue', conf:0.81,
+  title:'Trigger integration-proof to high-consideration leads',
+  trigger:'Funnel signal: 71% of qualified leads stall between /features and demo-booking; integration doubt unanswered.',
+  chips:[{l:'content',t:'Proof-content fit',v:'0.77'},{l:'campaign',t:'Goal success',v:'0.74'},{l:'individual',t:'WhatsApp affinity',v:'0.68'}],
+  tier:'Industry model',
+  lift:'+22 pts', liftLabel:'predicted demo-booking on stalled leads',
+  action:'Send an integration proof-point (WhatsApp where opted-in, else email) on /features revisit.',
+  why:{
+   narr:'The bottleneck is <b>unanswered integration doubt at high consideration</b>, not top-funnel volume. The Campaign layer scores a proof-led automation shape well above the generic welcome series for this segment, and the Individual layer shows enough WhatsApp affinity to justify the channel. Grounded in your funnel — not a webinar blog.',
+   scores:[
+    {n:'0.74',m:'Campaign layer · proof-led automation shape success (Industry model)'},
+    {n:'0.77',m:'Content layer · integration-proof creative impact score'},
+    {n:'0.68',m:'Individual layer · WhatsApp affinity, opted-in segment'},
+   ]
+  }
+ },
+ {
+  id:'c3', flag:'pro', flagText:'Proactive', conf:0.79,
+  title:'Re-enter dormant list with utility + content, suppress promos',
+  trigger:'Dormancy signal: 58% of 90-day-dormant contacts still click utility mail; promo win-backs under-index by 15 pts.',
+  chips:[{l:'content',t:'Content fit',v:'0.69'},{l:'campaign',t:'Goal success',v:'0.72'},{l:'individual',t:'Topic affinity',v:'0.74'}],
+  tier:'Tenant + Industry blend',
+  lift:'+15 pts', liftLabel:'predicted reactivation vs. discount blast',
+  action:'Replace promotional win-back with a utility + content re-entry; route a blog digest to recent returners.',
+  why:{
+   narr:'Your dormant list isn’t dead — it has <b>tuned out promotions specifically</b>. The Individual layer shows utility/content topic affinity; the Campaign layer scores a content-led re-entry shape above the discount blast. Tenant data is thin here, so the engine blends the <b>Industry model</b> for confidence.',
+   scores:[
+    {n:'0.72',m:'Campaign layer · content-led re-entry shape (Tenant+Industry blend)'},
+    {n:'0.74',m:'Individual layer · utility/content topic affinity'},
+    {n:'-0.21',m:'cMAB · marginal value of discount creative for dormant cohort'},
+   ]
+  }
+ },
+];
+
+/* exec sees a portfolio framing card first */
+const EXEC_CARD={
+  id:'e1', flag:'rev', flagText:'Portfolio', conf:0.84,
+  title:'3 proactive plays this week → ~$48K projected revenue at risk recovered',
+  trigger:'Across all active goals: retention risk in mid-tier, funnel stall pre-demo, and dormant-list decay are the top 3 movers.',
+  chips:[{l:'campaign',t:'Avg goal success',v:'0.78'},{l:'individual',t:'Coverage',v:'71%'},{l:'content',t:'Grounded',v:'100%'}],
+  tier:'Industry model',
+  lift:'$48K', liftLabel:'projected at-risk revenue recoverable this week',
+  action:'Approve all 3 grounded plays, or review each below. Every recommendation traces to a performance score.',
+  why:{
+   narr:'This is the <b>executive roll-up</b>: the cross-layer engine ranked every open goal by projected revenue impact and grounding confidence. No play is shown unless it traces to measured performance — grounding is 100% on this batch.',
+   scores:[
+    {n:'$31K',m:'Retention play · at-risk mid-tier cohort'},
+    {n:'$12K',m:'Acquisition play · stalled high-consideration leads'},
+    {n:'$5K',m:'Reactivation play · dormant list re-entry'},
+   ]
+  }
+};
+
+const NOTES={
+ manager:[
+  {ic:'🔔',bg:'#fdece9',t:'Retention play ready to launch',d:'Over-mailed mid-tier cohort — SMS + loyalty offer, +18pt predicted. One click to review.',m:'2m ago · grounded by Industry model'},
+  {ic:'⚡',bg:'#eef4ff',t:'Funnel stall detected',d:'71% of qualified leads stalling pre-demo. Integration-proof automation drafted.',m:'1h ago'},
+  {ic:'📝',bg:'#f0eaff',t:'Dormant re-entry suggested',d:'Promo win-backs under-indexing 15pts; content-led re-entry recommended.',m:'3h ago'},
+ ],
+ exec:[
+  {ic:'💰',bg:'#e6f5ee',t:'$48K at-risk revenue recoverable',d:'3 grounded plays this week across retention, acquisition, reactivation. Approve all or review.',m:'today · portfolio view'},
+  {ic:'📈',bg:'#eef4ff',t:'Retention vs. sector benchmark',d:'Your mid-tier retention is 4pts below industry peers — closing it is the top revenue lever.',m:'today'},
+  {ic:'✅',bg:'#e6f5ee',t:'Grounding compliance: 100%',d:'Every recommendation surfaced this week traces to a performance score. Zero ungrounded outputs.',m:'this week'},
+ ],
+ analyst:[
+  {ic:'📊',bg:'#eef4ff',t:'cMAB exploration within budget',d:'Retention campaign exploring at 0.12 vs 0.15 cap. Online learning stable.',m:'12m ago'},
+  {ic:'🧮',bg:'#fdf3e4',t:'Industry model beat tenant on golden set',d:'Loyalty-lever success score: Industry AUC 0.81 vs Tenant 0.67 (sparse). Defaulting to Industry.',m:'1h ago'},
+  {ic:'🔍',bg:'#f0eaff',t:'Gradient Boosting feature drift',d:'“email_freq_7d” importance up 0.08 w/w — driving the over-mailing signal. Monitor.',m:'4h ago'},
+ ],
+};
+
+/* report layer data */
+const REPORT={
+ content:{color:LYR.content,name:'Content Layer',q:'Which content scores, for whom',metrics:[
+   {t:'Predictive Cohort Impact',v:'0.71',chg:'+0.06 w/w',good:true,pct:71,g:'Gradient Boosting on tenant creative history, validated vs Industry model. Top feature: <code>loyalty_offer_present</code>. Trained on <span class="mt">14.2K sends</span>.'},
+   {t:'Creative briefs ingested (OCR+Vision)',v:'128',chg:'+12',good:true,pct:64,g:'128 brand assets parsed via OCR + Vision into the Content layer; <code>brand_voice_id: ac_default</code> applied to scoring.'},
+ ]},
+ campaign:{color:LYR.campaign,name:'Campaign Layer',q:'Whether the goal is achievable',metrics:[
+   {t:'Goal→Automation Success',v:'0.83',chg:'+0.09 w/w',good:true,pct:83,g:'Industry model + Gradient Boosting. Loyalty-lever automation shape outperforms broadcast for at-risk cohort. <code>model_tier: industry</code>.'},
+   {t:'Automation shape confidence',v:'High',chg:'stable',good:true,pct:78,g:'Automation Shape Training on 2.1K comparable journeys in your vertical. cMAB favors the 3-step SMS shape.'},
+ ]},
+ individual:{color:LYR.individual,name:'Individual Layer',q:'Who responds, and how',metrics:[
+   {t:'SMS channel affinity (at-risk)',v:'0.79',chg:'+0.11 w/w',good:true,pct:79,g:'Behavior & preference modeling at <code>individual_id</code> level. At-risk cohort shifted channel pref email→SMS over 21d.'},
+   {t:'Email fatigue index',v:'High',chg:'▲ rising',good:false,pct:68,g:'62% of at-risk accounts exceed 4 emails/wk. <code>email_freq_7d</code> is the top churn-driver feature this week.'},
+ ]},
+};
+
+/* ---------- render ---------- */
+let role='manager';
+const view=document.getElementById('view');
+const viewTitle=document.getElementById('viewTitle');
+
+function fmtChips(chips){return chips.map(c=>`<span class="gchip"><span class="lyr" style="background:${LYR[c.l]||'#888'}"></span>${c.t} <b>${c.v}</b></span>`).join('');}
+
+function campaignCard(c){
+  return `<div class="pcard" data-id="${c.id}">
+    <div class="pc-top">
+      <div class="pc-flag">
+        <span class="flag ${c.flag}">${c.flagText}</span>
+        <span class="conf">Grounding confidence <b>${Math.round(c.conf*100)}%</b></span>
+      </div>
+      <div class="pc-title">${c.title}</div>
+      <div class="trigger"><span class="ic">${ICO.chart}</span><span>${c.trigger}</span></div>
+    </div>
+    <div class="pc-body">
+      <div class="glabel">Grounded by semantic layers</div>
+      <div class="gchips">${fmtChips(c.chips)}</div>
+      <div class="gchips"><span class="tier">◉ ${c.tier}</span></div>
+      <div class="lift"><span class="n">${c.lift}</span><span class="l">${c.liftLabel}</span></div>
+      <div class="action"><b>Recommended:</b> ${c.action}</div>
+    </div>
+    <div class="why" id="why-${c.id}">
+      <div class="wl">Why this — hybrid reasoning</div>
+      <div class="narr">${c.why.narr}</div>
+      <div class="wl">Grounded on these scores</div>
+      ${c.why.scores.map(s=>`<div class="scorerow"><span class="sc-m">${s.m}</span><span class="sc-n">${s.n}</span></div>`).join('')}
+    </div>
+    <div class="pc-foot">
+      <button class="btn primary" data-act="launch">Review &amp; launch</button>
+      <button class="btn link" data-act="why" data-id="${c.id}">Why this?</button>
+      <button class="dismiss" data-act="dismiss">Dismiss</button>
+    </div>
+  </div>`;
+}
+
+function renderHome(){
+  viewTitle.textContent='Active Intelligence';
+  const cards = (role==='exec'?[EXEC_CARD]:[]).concat(CAMPAIGNS);
+  const subline = role==='exec'
+    ? 'Portfolio view — plays ranked by projected revenue impact, every one grounded in performance scores.'
+    : role==='analyst'
+    ? 'Each play exposes the scores and model tier it’s grounded on. Open “Why this?” for the evidence.'
+    : 'Campaigns the agent surfaced from your telemetry — grounded across the Content, Campaign, and Individual layers.';
+  view.innerHTML=`
+   <div class="hero">
+     <div class="brandkit">✨ Create a Brand Kit</div>
+     <h1>Let’s automate your success.</h1>
+     <div class="promptbox">
+       <div class="ph" id="typed"></div>
+       <div class="promptrow">
+         <span class="pill">📎</span>
+         <span class="pill">⚙ Tools</span>
+         <span class="pill">@ Add context</span>
+         <span class="send">↑</span>
+       </div>
+     </div>
+     <div class="heroactions">
+       <div class="ha">✉ Create an email</div>
+       <div class="ha">✨ Automate for me</div>
+     </div>
+   </div>
+   <div class="section tight">
+     <div class="sec-h"><h2>Proactive campaigns</h2><span class="ai">AI · GROUNDED</span></div>
+     <p class="sec-sub">${subline}</p>
+     <div class="cards">${cards.map(campaignCard).join('')}</div>
+   </div>`;
+  typeWriter();
+}
+
+function renderReports(){
+  viewTitle.textContent='Reports · Active Intelligence';
+  view.innerHTML=`
+   <div class="rep">
+     <div class="subnav">
+       <h3>Reports</h3>
+       <div class="grp">Automations <span>›</span></div>
+       <div class="grp">Contacts <span>›</span></div>
+       <div class="grp">Campaigns <span>˅</span></div>
+       <div class="it">All Campaigns Performance</div>
+       <div class="it">Email Client Trends</div>
+       <div class="it">Predictive Content</div>
+       <div class="it on">✨ Active Intelligence</div>
+       <div class="grp">WhatsApp <span>›</span></div>
+       <div class="grp">Website <span>›</span></div>
+       <div class="it">Marketing Revenue</div>
+       <div class="it">Ecommerce Dashboard</div>
+     </div>
+     <div class="repmain">
+       <div class="crumbs">Reports / Campaigns / Active Intelligence</div>
+       <h1>Active Intelligence</h1>
+       <div class="filters">
+         <span class="filt">Goal: Retention ˅</span>
+         <span class="filt">Segment: Mid-tier ˅</span>
+         <span class="filt">Model tier: Industry ˅</span>
+         <span class="filt range">Date range: 05/11/2026 – 06/10/2026 ˅</span>
+       </div>
+       <div class="overview">
+         <span class="ai" style="background:linear-gradient(135deg,#7c5cff,#d8417e);color:#fff;font-size:10px;font-weight:800;border-radius:20px;padding:3px 9px;">AI OVERVIEW</span>
+         <h4>Freeform summary — generated &amp; grounded ${new Date().toLocaleDateString()}</h4>
+         <p>Retention risk rose in your <b>mid-tier cohort</b> this period. The driver is not offer weakness — it’s <span class="bd">email fatigue</span>: 62% of at-risk accounts now exceed 4 emails/week, and they’re also price-sensitive, pushing churn to <span class="bd">2.3× baseline</span>.</p>
+         <p>The grounded path forward is a <span class="gd">loyalty offer delivered over SMS</span> with email capped — the Campaign layer scores this shape at <span class="gd">0.83</span> for your vertical, and the Individual layer shows SMS affinity rising to <span class="gd">0.79</span>. Projected lift: <span class="gd">+18 pts retention</span> on the cohort.</p>
+         <p style="font-size:12.5px;color:#9fc0ee;margin-top:4px">Every figure below is traceable to a model score — click <b>“Grounded by”</b> on any metric to see the evidence.</p>
+       </div>
+       <div class="layers">${['content','campaign','individual'].map(layerPanel).join('')}</div>
+     </div>
+   </div>`;
+}
+
+function layerPanel(key){
+  const L=REPORT[key];
+  return `<div class="lpanel">
+    <div class="lp-head" style="background:${L.color}"><span style="width:9px;height:9px;border-radius:2px;background:#ffffffcc;display:inline-block"></span> Semantic ${L.name}</div>
+    <div class="lp-body">
+      <div style="font-size:11.5px;color:#7a869e;margin-bottom:11px">${L.q}</div>
+      ${L.metrics.map((m,i)=>`
+        <div class="metric">
+          <div class="mt"><span>${m.t}</span></div>
+          <div class="mv"><span class="big">${m.v}</span><span class="chg" style="color:${m.good?'var(--good)':'var(--bad)'}">${m.chg}</span></div>
+          <div class="bar"><i style="width:${m.pct}%;background:${m.good?'var(--good)':'var(--warn)'}"></i></div>
+          <div class="ground" data-g="${key}-${i}"><span class="gi">◉</span><span>Grounded by — show evidence</span></div>
+          <div class="gdetail" id="g-${key}-${i}">${m.g}</div>
+        </div>`).join('')}
+    </div>
+  </div>`;
+}
+
+function placeholder(name){
+  viewTitle.textContent=name;
+  view.innerHTML=`<div class="placeholder"><div class="pi">🧭</div><div style="font-size:16px;font-weight:700;color:#33405a">${name}</div><div style="margin-top:6px">Standard ActiveCampaign surface — outside this prototype’s scope.<br>The Active Intelligence work lives in <b>Home</b> and <b>Reports</b>.</div></div>`;
+}
+
+/* ---------- typewriter in hero ---------- */
+let twTimer=null;
+function typeWriter(){
+  const el=document.getElementById('typed'); if(!el) return;
+  const prompts={
+    manager:'Ask anything, or launch a grounded play below…',
+    exec:'Show me where revenue is at risk this week…',
+    analyst:'Compare tenant vs industry model on the retention goal…'
+  };
+  const text=prompts[role]; let i=0; el.textContent='';
+  clearInterval(twTimer);
+  twTimer=setInterval(()=>{ el.textContent=text.slice(0,i++); if(i>text.length){clearInterval(twTimer);} },28);
+}
+
+/* ---------- routing ---------- */
+let current='home';
+function route(v){
+  current=v;
+  document.querySelectorAll('.nico').forEach(n=>n.classList.toggle('active',n.dataset.view===v));
+  if(v==='home') renderHome();
+  else if(v==='reports') renderReports();
+  else placeholder({'ph-contacts':'Contacts','ph-automations':'Automations','ph-email':'Campaigns','ph-wa':'WhatsApp','ph-settings':'Settings'}[v]||'View');
+}
+
+/* ---------- events (delegated) ---------- */
+document.addEventListener('click',e=>{
+  const nico=e.target.closest('.nico'); if(nico){route(nico.dataset.view);return;}
+  const act=e.target.closest('[data-act]');
+  if(act){
+    const a=act.dataset.act;
+    if(a==='why'){ const w=document.getElementById('why-'+act.dataset.id); w.classList.toggle('open'); act.textContent=w.classList.contains('open')?'Hide reasoning':'Why this?'; }
+    else if(a==='launch'){ toast('✓ Campaign staged — grounded recommendation loaded into the builder'); }
+    else if(a==='dismiss'){ const card=act.closest('.pcard'); card.style.opacity=.35; toast('Dismissed — the agent will learn from this'); }
+    return;
+  }
+  const g=e.target.closest('.ground'); if(g){ document.getElementById('g-'+g.dataset.g).classList.toggle('open'); return; }
+});
+
+/* role switch */
+document.getElementById('roleSwitch').addEventListener('click',e=>{
+  const btn=e.target.closest('button'); if(!btn) return;
+  role=btn.dataset.role;
+  document.querySelectorAll('#roleSwitch button').forEach(b=>b.classList.toggle('on',b===btn));
+  if(current==='home') renderHome();
+  renderNotes();
+  toast('View re-framed for: '+ROLE_LABEL[role]);
+});
+
+/* notifications */
+const scrim=document.getElementById('scrim'),drawer=document.getElementById('drawer');
+function openDrawer(){scrim.classList.add('open');drawer.classList.add('open');document.getElementById('bellBadge').style.display='none';}
+function closeDrawer(){scrim.classList.remove('open');drawer.classList.remove('open');}
+document.getElementById('bellBtn').addEventListener('click',openDrawer);
+document.getElementById('dwClose').addEventListener('click',closeDrawer);
+scrim.addEventListener('click',closeDrawer);
+function renderNotes(){
+  document.getElementById('dwRole').innerHTML='Tailored for: <b>'+ROLE_LABEL[role]+'</b>';
+  document.getElementById('dwList').innerHTML=NOTES[role].map(n=>`
+    <div class="note"><div class="ni" style="background:${n.bg}">${n.ic}</div>
+      <div><div class="nt">${n.t}</div><div class="nd">${n.d}</div><div class="nm">${n.m}</div></div></div>`).join('');
+  document.getElementById('bellBadge').textContent=NOTES[role].length;
+}
+
+/* toast */
+let toastT=null;
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2400);}
+
+/* boot */
+route('home');
+renderNotes();
+</script>
+</body>
+</html>

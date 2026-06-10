@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Active Intelligence — Home</title>
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body data-page="home" data-title="Active Intelligence">
+<script src="assets/data.js"></script>
+<script src="assets/shell.js"></script>
+<script>
+function card(c){
+  const chips = c.chips.map(x=>`<span class="gchip"><span class="lyr" style="background:${DATA.LYR[x.l]||'#888'}"></span>${x.t} <b>${x.v}</b></span>`).join('');
+  const scores = c.why.scores.map(s=>`<div class="scorerow"><span class="sc-m">${s.m}</span><span class="sc-n">${s.n}</span></div>`).join('');
+  const cta = c.build ? `<a class="btn primary" href="builder.html?id=${c.id}">Review &amp; launch</a>` : `<a class="btn primary" href="reports.html">Open report</a>`;
+  return `<div class="pcard" data-id="${c.id}">
+    <div class="pc-top">
+      <div class="pc-flag"><span class="flag ${c.flag}">${c.flagText}</span>
+        <span class="conf">Grounding confidence <b>${Math.round(c.conf*100)}%</b></span></div>
+      <div class="pc-title">${c.title}</div>
+      <div class="trigger"><span class="ic">${SHELL_ICONS.chartSmall}</span><span>${c.trigger}</span></div>
+    </div>
+    <div class="pc-body">
+      <div class="glabel">Grounded by semantic layers</div>
+      <div class="gchips">${chips}</div>
+      <div class="gchips"><span class="tier">&#9673; ${c.tier}</span></div>
+      <div class="lift"><span class="n">${c.lift}</span><span class="l">${c.liftLabel}</span></div>
+      <div class="action"><b>Recommended:</b> ${c.action}</div>
+    </div>
+    <div class="why" id="why-${c.id}">
+      <div class="wl">Why this — hybrid reasoning</div>
+      <div class="narr">${c.why.narr}</div>
+      <div class="wl">Grounded on these scores</div>${scores}
+    </div>
+    <div class="pc-foot">${cta}
+      <button class="btn link" data-act="why" data-id="${c.id}">Why this?</button>
+      <button class="dismiss" data-act="dismiss">Dismiss</button>
+    </div>
+  </div>`;
+}
+
+function render(view, ctx){
+  const role = ctx.role;
+  const cards = (role==='exec'?[DATA.EXEC_CARD]:[]).concat(DATA.CAMPAIGNS);
+  const sub = role==='exec'
+    ? 'Portfolio view — plays ranked by projected revenue impact, every one grounded in performance scores.'
+    : role==='analyst'
+    ? 'Each play exposes the scores and model tier it’s grounded on. Open “Why this?” for the evidence.'
+    : 'Campaigns the agent surfaced from your telemetry — grounded across the Content, Campaign, and Individual layers.';
+  const prompts = {
+    manager:'Ask anything, or launch a grounded play below…',
+    exec:'Show me where revenue is at risk this week…',
+    analyst:'Compare tenant vs industry model on the retention goal…'
+  };
+  view.innerHTML = `
+    <div class="hero">
+      <div class="brandkit">✨ Create a Brand Kit</div>
+      <h1>Let’s automate your success.</h1>
+      <div class="promptbox">
+        <div class="ph" id="typed"></div>
+        <div class="promptrow"><span class="pill">📎</span><span class="pill">⚙ Tools</span><span class="pill">@ Add context</span><span class="send">↑</span></div>
+      </div>
+      <div class="heroactions"><a class="ha" href="#">✉ Create an email</a><a class="ha" href="automations.html">✨ Automate for me</a></div>
+    </div>
+    <div class="section tight">
+      <div class="sec-h"><h2>Proactive campaigns</h2><span class="ai">AI · GROUNDED</span></div>
+      <p class="sec-sub">${sub}</p>
+      <div class="cards">${cards.map(card).join('')}</div>
+    </div>`;
+  // typewriter
+  const el = document.getElementById('typed'); const text = prompts[role]; let i=0; el.textContent='';
+  clearInterval(window._tw); window._tw = setInterval(()=>{ el.textContent = text.slice(0,i++); if(i>text.length) clearInterval(window._tw); }, 26);
+}
+
+// delegated interactions (attached once)
+document.addEventListener('click', e=>{
+  const a = e.target.closest('[data-act]'); if(!a) return;
+  if(a.dataset.act==='why'){ const w=document.getElementById('why-'+a.dataset.id); w.classList.toggle('open'); a.textContent = w.classList.contains('open')?'Hide reasoning':'Why this?'; }
+  else if(a.dataset.act==='dismiss'){ const c=a.closest('.pcard'); c.style.opacity=.35; Shell.toast('Dismissed — the agent will learn from this'); }
+});
+
+Shell.mount(render);
+</script>
+<script src="assets/tour.js"></script>
+</body>
+</html>

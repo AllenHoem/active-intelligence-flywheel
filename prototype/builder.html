@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Active Intelligence — Review &amp; launch</title>
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body data-page="home" data-title="Review &amp; launch">
+<script src="assets/data.js"></script>
+<script src="assets/shell.js"></script>
+<script>
+function param(k){ return new URLSearchParams(location.search).get(k); }
+
+function chanTile(c){
+  return `<div class="chan ${c.on?'':'dim'}">
+    <div class="cn">${c.n} <span class="pin ${c.cls}">${c.pin}</span></div>
+    <div class="cd">${c.d}</div></div>`;
+}
+
+function render(view){
+  const c = DATA.getCampaign(param('id')) || DATA.CAMPAIGNS[0];
+  const b = c.build;
+  if(!b){ view.innerHTML = `<div class="placeholder"><div class="pi">🧭</div><div>This item opens the portfolio. <a href="index.html">Back to home</a>.</div></div>`; return; }
+  const scores = c.why.scores.map(s=>`<div class="scorerow"><span class="sc-m">${s.m}</span><span class="sc-n">${s.n}</span></div>`).join('');
+  const chans = b.channels.map(chanTile).join('');
+  view.innerHTML = `
+  <div class="builder">
+    <div class="bld-top">
+      <div style="flex:1">
+        <a class="bld-back" href="index.html">&larr; Back to proactive campaigns</a>
+        <div class="bld-h1">Review &amp; launch</div>
+        <div class="bld-sub">${c.title}</div>
+        <div class="stepper" style="margin-top:10px">
+          <span class="st on">1 · Goal</span><span class="st on">2 · Audience</span><span class="st on">3 · Channels</span><span class="st on">4 · Content</span><span class="st">5 · Live</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="bld-grid">
+      <div>
+        <div class="bcard">
+          <h3>Goal <span class="prefill">✦ pre-filled from your declared goal</span></h3>
+          <p class="hint">The agent inherited the Declarative Goal and brand guardrails — nothing to re-enter.</p>
+          <div class="two">
+            <div class="field"><label>Business goal</label><select><option>${b.goal}</option></select></div>
+            <div class="field"><label>Target metric delta</label><input value="${b.target}"></div>
+          </div>
+          <div class="field"><label>Brand voice</label><select><option>${b.voice}</option></select></div>
+        </div>
+
+        <div class="bcard">
+          <h3>Audience <span class="prefill">✦ resolved from telemetry</span></h3>
+          <p class="hint">Cohort built by the Individual layer — every contact stitched to one authoritative individual_id.</p>
+          <div class="audience">
+            <div class="big">${b.audienceSize}</div>
+            <div class="d">${b.audienceDesc}</div>
+          </div>
+        </div>
+
+        <div class="bcard">
+          <h3>Channel plan <span class="prefill">✦ scored by cMAB</span></h3>
+          <p class="hint">Mix chosen by the contextual bandit within your exploration budget — not a default template.</p>
+          <div class="chanrow">${chans}</div>
+        </div>
+
+        <div class="bcard">
+          <h3>Content <span class="prefill">✦ best-scoring variant</span></h3>
+          <p class="hint">Selected by the Content layer from your brand kit; OCR/Vision-parsed creative scored per cohort.</p>
+          <div class="creative">
+            <div class="thumb">${b.creative.icon}</div>
+            <div>
+              <div class="ct">${b.creative.title}</div>
+              <div class="cc">${b.creative.copy}</div>
+              <div class="cscore">◉ ${b.creative.score}</div>
+            </div>
+          </div>
+          <div class="field" style="margin-top:13px"><label>Schedule</label><select><option>${b.schedule}</option></select></div>
+        </div>
+      </div>
+
+      <div class="side">
+        <div class="gpanel">
+          <h3>${SHELL_ICONS.chartSmall} Grounded reasoning</h3>
+          <div class="liftbig">${c.lift}</div>
+          <div class="liftlbl">${c.liftLabel}</div>
+          <div class="tierline">◉ Grounded on the <b>${c.tier}</b> · confidence ${Math.round(c.conf*100)}%</div>
+          <div class="narr">${c.why.narr}</div>
+          <div class="wl">Top grounding scores</div>${scores}
+        </div>
+        <div class="gpanel" style="background:#0c1020">
+          <div class="evalbadge">
+            <div class="ck">✓</div>
+            <div class="et"><b style="color:#fff">Passes the eval bar.</b> Every element of this campaign traces to a performance score — zero ungrounded recommendations.</div>
+          </div>
+          <div class="launchbar" style="margin-top:14px">
+            <button class="btn primary lg" id="launchBtn">Launch campaign</button>
+            <button class="btn ghost" id="tweakBtn">Adjust</button>
+          </div>
+          <div class="note2" style="margin-top:8px">Launching feeds outcomes back to the semantic layers — closing the Flywheel.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-scrim" id="modal">
+    <div class="modal">
+      <div class="big">✓</div>
+      <h2>Campaign launched</h2>
+      <p>“${c.title}” is live to <b>${b.audienceSize}</b> contacts. The agent will monitor outcomes and re-score in real time.</p>
+      <div class="loop">↻ Flywheel engaged · post-campaign learning re-grounds the next play</div>
+      <div style="display:flex;gap:10px;justify-content:center">
+        <a class="btn primary" href="index.html">Back to home</a>
+        <button class="btn ghost" id="closeModal">Stay here</button>
+      </div>
+    </div>
+  </div>`;
+
+  document.getElementById('launchBtn').onclick = ()=>{ document.getElementById('modal').classList.add('open'); };
+  document.getElementById('closeModal').onclick = ()=>{ document.getElementById('modal').classList.remove('open'); };
+  document.getElementById('tweakBtn').onclick = ()=> Shell.toast('You can override any field — the grounding scores update live');
+}
+
+Shell.mount(render);
+</script>
+<script src="assets/tour.js"></script>
+</body>
+</html>

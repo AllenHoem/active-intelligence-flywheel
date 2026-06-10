@@ -1,0 +1,130 @@
+<svg viewBox="0 0 1240 858" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<linearGradient id="gtitle" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2E4A7A"/><stop offset="1" stop-color="#1F3A5F"/></linearGradient>
+<linearGradient id="gllm" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#28406b"/><stop offset="1" stop-color="#16243f"/></linearGradient>
+<linearGradient id="gml" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1aa168"/><stop offset="1" stop-color="#0f6e47"/></linearGradient>
+<linearGradient id="gind" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d98f2f"/><stop offset="1" stop-color="#b9701d"/></linearGradient>
+<marker id="ar" markerWidth="10" markerHeight="10" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#2E75B6"/></marker>
+<marker id="arA" markerWidth="10" markerHeight="10" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#C44536"/></marker>
+<marker id="arG" markerWidth="10" markerHeight="10" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#16895A"/></marker>
+</defs>
+<rect x="0.0" y="0.0" width="1240.0" height="858.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<rect x="60.0" y="22.0" width="1120.0" height="68.0" rx="14" fill="url(#gtitle)" stroke="none" stroke-width="1"/>
+<text x="620.0" y="53.0" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#ffffff" font-weight="700" text-anchor="middle" letter-spacing="0">Active Intelligence Marketing Flywheel</text>
+<text x="620.0" y="77.0" font-family="Arial, Helvetica, sans-serif" font-size="12.5" fill="#cfe0f4" font-weight="normal" text-anchor="middle" letter-spacing="0">Intelligent on-demand &amp; proactive campaign execution — grounded reasoning, not guesswork</text>
+<text x="60.0" y="112.0" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#5b6b7e" font-weight="700" text-anchor="start" letter-spacing="1.5">MARKETER SURFACES</text>
+<rect x="66.0" y="120.0" width="212.0" height="42.0" rx="9" fill="#2E75B6" stroke="none" stroke-width="1"/>
+<text x="172.0" y="147.0" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#ffffff" font-weight="700" text-anchor="middle" letter-spacing="0">Automation</text>
+<rect x="290.0" y="120.0" width="212.0" height="42.0" rx="9" fill="#2E75B6" stroke="none" stroke-width="1"/>
+<text x="396.0" y="147.0" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#ffffff" font-weight="700" text-anchor="middle" letter-spacing="0">Intelligence</text>
+<rect x="514.0" y="120.0" width="212.0" height="42.0" rx="9" fill="#2E75B6" stroke="none" stroke-width="1"/>
+<text x="620.0" y="147.0" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#ffffff" font-weight="700" text-anchor="middle" letter-spacing="0">Segments</text>
+<rect x="738.0" y="120.0" width="212.0" height="42.0" rx="9" fill="#2E75B6" stroke="none" stroke-width="1"/>
+<text x="844.0" y="147.0" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#ffffff" font-weight="700" text-anchor="middle" letter-spacing="0">Content</text>
+<rect x="962.0" y="120.0" width="212.0" height="42.0" rx="9" fill="#2E75B6" stroke="none" stroke-width="1"/>
+<text x="1068.0" y="147.0" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#ffffff" font-weight="700" text-anchor="middle" letter-spacing="0">Channels</text>
+<rect x="60.0" y="184.0" width="1120.0" height="46.0" rx="10" fill="#EAF1F8" stroke="#2E75B6" stroke-width="1.5"/>
+<text x="620.0" y="205.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#1F3A5F" font-weight="700" text-anchor="middle" letter-spacing="0">AI-Driven Cross-Layer Inferencing Engine</text>
+<text x="620.0" y="221.0" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#5b6b7e" font-weight="normal" text-anchor="middle" letter-spacing="0">reasons across every semantic layer to decide what to surface, when, and why</text>
+<line x1="172.0" y1="163.0" x2="172.0" y2="183.0" stroke="#cdd8e6" stroke-width="1.7" marker-end="url(#ar)"/>
+<line x1="396.0" y1="163.0" x2="396.0" y2="183.0" stroke="#cdd8e6" stroke-width="1.7" marker-end="url(#ar)"/>
+<line x1="620.0" y1="163.0" x2="620.0" y2="183.0" stroke="#cdd8e6" stroke-width="1.7" marker-end="url(#ar)"/>
+<line x1="844.0" y1="163.0" x2="844.0" y2="183.0" stroke="#cdd8e6" stroke-width="1.7" marker-end="url(#ar)"/>
+<line x1="1068.0" y1="163.0" x2="1068.0" y2="183.0" stroke="#cdd8e6" stroke-width="1.7" marker-end="url(#ar)"/>
+<text x="60.0" y="252.0" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#5b6b7e" font-weight="700" text-anchor="start" letter-spacing="1.5">SEMANTIC CONTEXT LAYERS</text>
+<text x="1180.0" y="252.0" font-family="Arial, Helvetica, sans-serif" font-size="10.5" fill="#5b6b7e" font-weight="400" text-anchor="end" letter-spacing="0">continuously revised · markdown-summarized · the grounded memory</text>
+<rect x="60.0" y="266.0" width="360.0" height="152.0" rx="12" fill="#fbfcfe" stroke="#cdd8e6" stroke-width="1.1"/>
+<rect x="60.0" y="266.0" width="360.0" height="36.0" rx="12" fill="#6E5AA6" stroke="none" stroke-width="1"/>
+<rect x="60.0" y="286.0" width="360.0" height="16.0" rx="0" fill="#6E5AA6" stroke="none" stroke-width="1"/>
+<text x="240.0" y="289.0" font-family="Arial, Helvetica, sans-serif" font-size="13.5" fill="#ffffff" font-weight="600" text-anchor="middle" letter-spacing="0">Semantic Content Layer</text>
+<rect x="72.0" y="316.0" width="336.0" height="26.0" rx="7" fill="#ffffff" stroke="#cdd8e6" stroke-width="1"/>
+<text x="240.0" y="333.0" font-family="Arial, Helvetica, sans-serif" font-size="11.6" fill="#1c2530" font-weight="600" text-anchor="middle" letter-spacing="0">Predictive Cohort Impact Scores</text>
+<rect x="72.0" y="348.0" width="336.0" height="26.0" rx="7" fill="#ffffff" stroke="#cdd8e6" stroke-width="1"/>
+<text x="240.0" y="365.0" font-family="Arial, Helvetica, sans-serif" font-size="11.6" fill="#1c2530" font-weight="600" text-anchor="middle" letter-spacing="0">Creative Briefs · OCR · Vision</text>
+<rect x="72.0" y="380.0" width="336.0" height="26.0" rx="7" fill="#ffffff" stroke="#cdd8e6" stroke-width="1"/>
+<text x="240.0" y="397.0" font-family="Arial, Helvetica, sans-serif" font-size="11.6" fill="#1c2530" font-weight="600" text-anchor="middle" letter-spacing="0">What content scores, for whom</text>
+<line x1="240.0" y1="231.0" x2="240.0" y2="265.0" stroke="#cdd8e6" stroke-width="1.7" marker-end="url(#ar)"/>
+<rect x="440.0" y="266.0" width="360.0" height="152.0" rx="12" fill="#fbfcfe" stroke="#cdd8e6" stroke-width="1.1"/>
+<rect x="440.0" y="266.0" width="360.0" height="36.0" rx="12" fill="#2E75B6" stroke="none" stroke-width="1"/>
+<rect x="440.0" y="286.0" width="360.0" height="16.0" rx="0" fill="#2E75B6" stroke="none" stroke-width="1"/>
+<text x="620.0" y="289.0" font-family="Arial, Helvetica, sans-serif" font-size="13.5" fill="#ffffff" font-weight="600" text-anchor="middle" letter-spacing="0">Semantic Campaign Layer</text>
+<rect x="452.0" y="316.0" width="336.0" height="26.0" rx="7" fill="#ffffff" stroke="#cdd8e6" stroke-width="1"/>
+<text x="620.0" y="333.0" font-family="Arial, Helvetica, sans-serif" font-size="11.6" fill="#1c2530" font-weight="600" text-anchor="middle" letter-spacing="0">Goal &#8594; Automation Success Scores</text>
+<rect x="452.0" y="348.0" width="336.0" height="26.0" rx="7" fill="#ffffff" stroke="#cdd8e6" stroke-width="1"/>
+<text x="620.0" y="365.0" font-family="Arial, Helvetica, sans-serif" font-size="11.6" fill="#1c2530" font-weight="600" text-anchor="middle" letter-spacing="0">Automation Shape Training</text>
+<rect x="452.0" y="380.0" width="336.0" height="26.0" rx="7" fill="#ffffff" stroke="#cdd8e6" stroke-width="1"/>
+<text x="620.0" y="397.0" font-family="Arial, Helvetica, sans-serif" font-size="11.6" fill="#1c2530" font-weight="600" text-anchor="middle" letter-spacing="0">Whether a goal is achievable</text>
+<line x1="620.0" y1="231.0" x2="620.0" y2="265.0" stroke="#cdd8e6" stroke-width="1.7" marker-end="url(#ar)"/>
+<rect x="820.0" y="266.0" width="360.0" height="152.0" rx="12" fill="#fbfcfe" stroke="#cdd8e6" stroke-width="1.1"/>
+<rect x="820.0" y="266.0" width="360.0" height="36.0" rx="12" fill="#A8557A" stroke="none" stroke-width="1"/>
+<rect x="820.0" y="286.0" width="360.0" height="16.0" rx="0" fill="#A8557A" stroke="none" stroke-width="1"/>
+<text x="1000.0" y="289.0" font-family="Arial, Helvetica, sans-serif" font-size="13.5" fill="#ffffff" font-weight="600" text-anchor="middle" letter-spacing="0">Semantic Individual Layer</text>
+<rect x="832.0" y="316.0" width="336.0" height="26.0" rx="7" fill="#ffffff" stroke="#cdd8e6" stroke-width="1"/>
+<text x="1000.0" y="333.0" font-family="Arial, Helvetica, sans-serif" font-size="11.6" fill="#1c2530" font-weight="600" text-anchor="middle" letter-spacing="0">Behavior &amp; Preference Modeling</text>
+<rect x="832.0" y="348.0" width="336.0" height="26.0" rx="7" fill="#ffffff" stroke="#cdd8e6" stroke-width="1"/>
+<text x="1000.0" y="365.0" font-family="Arial, Helvetica, sans-serif" font-size="11.6" fill="#1c2530" font-weight="600" text-anchor="middle" letter-spacing="0">Channel &amp; timing affinity</text>
+<rect x="832.0" y="380.0" width="336.0" height="26.0" rx="7" fill="#ffffff" stroke="#cdd8e6" stroke-width="1"/>
+<text x="1000.0" y="397.0" font-family="Arial, Helvetica, sans-serif" font-size="11.6" fill="#1c2530" font-weight="600" text-anchor="middle" letter-spacing="0">Who responds, and how</text>
+<line x1="1000.0" y1="231.0" x2="1000.0" y2="265.0" stroke="#cdd8e6" stroke-width="1.7" marker-end="url(#ar)"/>
+<text x="60.0" y="446.0" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#5b6b7e" font-weight="700" text-anchor="start" letter-spacing="1.5">HYBRID REASONING &#215; EXECUTION</text>
+<rect x="60.0" y="458.0" width="300.0" height="130.0" rx="12" fill="url(#gllm)" stroke="none" stroke-width="1"/>
+<text x="210.0" y="483.0" font-family="Arial, Helvetica, sans-serif" font-size="14.5" fill="#ffffff" font-weight="700" text-anchor="middle" letter-spacing="0">Frontier LLM Reasoning</text>
+<text x="210.0" y="501.0" font-family="Arial, Helvetica, sans-serif" font-size="10.5" fill="#a9c4e6" font-weight="normal" text-anchor="middle" letter-spacing="0">extended thinking · synthesis · language</text>
+<text x="210.0" y="522.0" font-family="Arial, Helvetica, sans-serif" font-size="11.8" fill="#e7eefa" font-weight="500" text-anchor="middle" letter-spacing="0">&#8226; AI Content Selection</text>
+<text x="210.0" y="544.0" font-family="Arial, Helvetica, sans-serif" font-size="11.8" fill="#e7eefa" font-weight="500" text-anchor="middle" letter-spacing="0">&#8226; AI Channel Mix + AI Send</text>
+<text x="210.0" y="566.0" font-family="Arial, Helvetica, sans-serif" font-size="11.8" fill="#e7eefa" font-weight="500" text-anchor="middle" letter-spacing="0">&#8226; AI Campaign Prioritization</text>
+<rect x="880.0" y="458.0" width="300.0" height="130.0" rx="12" fill="url(#gml)" stroke="none" stroke-width="1"/>
+<text x="1030.0" y="483.0" font-family="Arial, Helvetica, sans-serif" font-size="14.5" fill="#ffffff" font-weight="700" text-anchor="middle" letter-spacing="0">ML Scoring Models</text>
+<text x="1030.0" y="501.0" font-family="Arial, Helvetica, sans-serif" font-size="10" fill="#cdeede" font-weight="normal" text-anchor="middle" letter-spacing="0">the grounding layer — real performance, not web lore</text>
+<text x="1030.0" y="522.0" font-family="Arial, Helvetica, sans-serif" font-size="11.6" fill="#e4f6ec" font-weight="500" text-anchor="middle" letter-spacing="0">&#8226; Gradient Boosting</text>
+<text x="1030.0" y="544.0" font-family="Arial, Helvetica, sans-serif" font-size="11.6" fill="#e4f6ec" font-weight="500" text-anchor="middle" letter-spacing="0">&#8226; Contextual Multi-Armed Bandits</text>
+<text x="1030.0" y="566.0" font-family="Arial, Helvetica, sans-serif" font-size="11.6" fill="#e4f6ec" font-weight="500" text-anchor="middle" letter-spacing="0">&#8226; Predictive Impact / Success Scores</text>
+<rect x="378.0" y="484.0" width="484.0" height="78.0" rx="12" fill="#fff7ed" stroke="#C98A2B" stroke-width="1.4"/>
+<text x="620.0" y="515.0" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#8a5a12" font-weight="800" text-anchor="middle" letter-spacing="0">Scores ground the LLM</text>
+<text x="620.0" y="535.0" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#8a5a12" font-weight="500" text-anchor="middle" letter-spacing="0">reasoning constrained to</text>
+<text x="620.0" y="551.0" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#8a5a12" font-weight="500" text-anchor="middle" letter-spacing="0">what actually performs</text>
+<line x1="876.0" y1="523.0" x2="865.0" y2="523.0" stroke="#16895A" stroke-width="2.6" marker-end="url(#arG)"/>
+<line x1="375.0" y1="523.0" x2="364.0" y2="523.0" stroke="#16895A" stroke-width="2.6" marker-end="url(#arG)"/>
+<line x1="240.0" y1="419.0" x2="240.0" y2="457.0" stroke="#cdd8e6" stroke-width="1.7" marker-end="url(#ar)"/>
+<line x1="620.0" y1="419.0" x2="620.0" y2="457.0" stroke="#cdd8e6" stroke-width="1.7" marker-end="url(#ar)"/>
+<line x1="1000.0" y1="419.0" x2="1000.0" y2="457.0" stroke="#cdd8e6" stroke-width="1.7" marker-end="url(#ar)"/>
+<text x="60.0" y="616.0" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#5b6b7e" font-weight="700" text-anchor="start" letter-spacing="1.5">PREDICTIVE MODELING HIERARCHY</text>
+<rect x="60.0" y="628.0" width="360.0" height="78.0" rx="12" fill="#2E75B6" stroke="#cdd8e6" stroke-width="1.1"/>
+<text x="240.0" y="661.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#ffffff" font-weight="800" text-anchor="middle" letter-spacing="0">Tenant</text>
+<text x="240.0" y="683.0" font-family="Arial, Helvetica, sans-serif" font-size="11.5" fill="#eef3fb" font-weight="normal" text-anchor="middle" letter-spacing="0">your own account</text>
+<line x1="422.0" y1="667.0" x2="438.0" y2="667.0" stroke="#C44536" stroke-width="2.2" marker-end="url(#arA)"/>
+<rect x="440.0" y="628.0" width="360.0" height="78.0" rx="12" fill="url(#gind)" stroke="#C44536" stroke-width="2.4"/>
+<text x="620.0" y="661.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#ffffff" font-weight="800" text-anchor="middle" letter-spacing="0">Industry  &#9733; preferred</text>
+<text x="620.0" y="683.0" font-family="Arial, Helvetica, sans-serif" font-size="11.5" fill="#eef3fb" font-weight="normal" text-anchor="middle" letter-spacing="0">peers in your vertical</text>
+<line x1="802.0" y1="667.0" x2="818.0" y2="667.0" stroke="#C44536" stroke-width="2.2" marker-end="url(#arA)"/>
+<rect x="820.0" y="628.0" width="360.0" height="78.0" rx="12" fill="#7e8aa0" stroke="#cdd8e6" stroke-width="1.1"/>
+<text x="1000.0" y="661.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#ffffff" font-weight="800" text-anchor="middle" letter-spacing="0">Global</text>
+<text x="1000.0" y="683.0" font-family="Arial, Helvetica, sans-serif" font-size="11.5" fill="#eef3fb" font-weight="normal" text-anchor="middle" letter-spacing="0">all customers (fallback)</text>
+<line x1="1030.0" y1="625.0" x2="1030.0" y2="591.0" stroke="#16895A" stroke-width="2.0" marker-end="url(#arG)" stroke-dasharray="5 4"/>
+<rect x="60.0" y="732.0" width="1120.0" height="56.0" rx="12" fill="#f4f7fb" stroke="#cdd8e6" stroke-width="1.1"/>
+<text x="86.0" y="764.0" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#5b6b7e" font-weight="700" text-anchor="start" letter-spacing="1.2">INPUTS</text>
+<rect x="176.0" y="745.0" width="81.3" height="30.0" rx="7" fill="#ffffff" stroke="#cdd8e6" stroke-width="1"/>
+<text x="216.7" y="764.2" font-family="Arial, Helvetica, sans-serif" font-size="11.4" fill="#1c2530" font-weight="600" text-anchor="middle" letter-spacing="0">Email</text>
+<rect x="269.3" y="745.0" width="81.3" height="30.0" rx="7" fill="#ffffff" stroke="#cdd8e6" stroke-width="1"/>
+<text x="310.0" y="764.2" font-family="Arial, Helvetica, sans-serif" font-size="11.4" fill="#1c2530" font-weight="600" text-anchor="middle" letter-spacing="0">SMS</text>
+<rect x="362.7" y="745.0" width="81.3" height="30.0" rx="7" fill="#ffffff" stroke="#cdd8e6" stroke-width="1"/>
+<text x="403.3" y="764.2" font-family="Arial, Helvetica, sans-serif" font-size="11.4" fill="#1c2530" font-weight="600" text-anchor="middle" letter-spacing="0">Web</text>
+<rect x="456.0" y="745.0" width="104.7" height="30.0" rx="7" fill="#ffffff" stroke="#cdd8e6" stroke-width="1"/>
+<text x="508.3" y="764.2" font-family="Arial, Helvetica, sans-serif" font-size="11.4" fill="#1c2530" font-weight="600" text-anchor="middle" letter-spacing="0">WhatsApp</text>
+<rect x="572.7" y="745.0" width="81.3" height="30.0" rx="7" fill="#ffffff" stroke="#cdd8e6" stroke-width="1"/>
+<text x="613.3" y="764.2" font-family="Arial, Helvetica, sans-serif" font-size="11.4" fill="#1c2530" font-weight="600" text-anchor="middle" letter-spacing="0">Push</text>
+<rect x="666.0" y="745.0" width="81.3" height="30.0" rx="7" fill="#ffffff" stroke="#cdd8e6" stroke-width="1"/>
+<text x="706.7" y="764.2" font-family="Arial, Helvetica, sans-serif" font-size="11.4" fill="#1c2530" font-weight="600" text-anchor="middle" letter-spacing="0">Ads</text>
+<rect x="759.3" y="745.0" width="146.7" height="30.0" rx="7" fill="#ffffff" stroke="#cdd8e6" stroke-width="1"/>
+<text x="832.7" y="764.2" font-family="Arial, Helvetica, sans-serif" font-size="11.4" fill="#1c2530" font-weight="600" text-anchor="middle" letter-spacing="0">Creative Briefs</text>
+<rect x="918.0" y="745.0" width="240.0" height="30.0" rx="7" fill="#ffffff" stroke="#cdd8e6" stroke-width="1"/>
+<text x="1038.0" y="764.2" font-family="Arial, Helvetica, sans-serif" font-size="11.4" fill="#1c2530" font-weight="600" text-anchor="middle" letter-spacing="0">Declarative Goals &amp; Guardrails</text>
+<line x1="620.0" y1="730.0" x2="620.0" y2="720.0" stroke="#cdd8e6" stroke-width="1.6" marker-end="url(#ar)"/>
+<text x="620.0" y="716.0" font-family="Arial, Helvetica, sans-serif" font-size="9" fill="#1c2530" font-weight="normal" text-anchor="middle" letter-spacing="0"></text>
+<line x1="240.0" y1="730.0" x2="240.0" y2="708.0" stroke="#cdd8e6" stroke-width="1.5" marker-end="url(#ar)"/>
+<line x1="1000.0" y1="730.0" x2="1000.0" y2="708.0" stroke="#cdd8e6" stroke-width="1.5" marker-end="url(#ar)"/>
+<path d="M 1182 716 C 1230 716, 1230 282, 1182 282" fill="none" stroke="#C44536" stroke-width="2.4" marker-end="url(#arA)"/>
+<g transform="translate(1220,499.0) rotate(90)">
+<text x="0.0" y="0.0" font-family="Arial, Helvetica, sans-serif" font-size="10.5" fill="#C44536" font-weight="800" text-anchor="middle" letter-spacing="0">FLYWHEEL · post-campaign learning re-grounds the next campaign</text>
+</g>
+</svg>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Active Intelligence — Reports</title>
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body data-page="reports" data-title="Reports · Active Intelligence">
+<script src="assets/data.js"></script>
+<script src="assets/shell.js"></script>
+<script>
+function layerPanel(key){
+  const L = DATA.REPORT[key];
+  const metrics = L.metrics.map((m,i)=>`
+    <div class="metric">
+      <div class="mt"><span>${m.t}</span></div>
+      <div class="mv"><span class="big">${m.v}</span><span class="chg" style="color:${m.good?'var(--good)':'var(--bad)'}">${m.chg}</span></div>
+      <div class="bar"><i style="width:${m.pct}%;background:${m.good?'var(--good)':'var(--warn)'}"></i></div>
+      <div class="ground" data-g="${key}-${i}"><span class="gi">&#9673;</span><span>Grounded by — show evidence</span></div>
+      <div class="gdetail" id="g-${key}-${i}">${m.g}</div>
+    </div>`).join('');
+  return `<div class="lpanel">
+    <div class="lp-head" style="background:${L.color}"><span style="width:9px;height:9px;border-radius:2px;background:#ffffffcc;display:inline-block"></span> Semantic ${L.name}</div>
+    <div class="lp-body"><div style="font-size:11.5px;color:#7a869e;margin-bottom:11px">${L.q}</div>${metrics}</div>
+  </div>`;
+}
+
+function render(view, ctx){
+  const role = ctx.role;
+  const execNote = role==='exec'
+    ? `<p style="font-size:12.5px;color:#9fc0ee;margin-top:4px">Executive lens: this maps to <b>$31K</b> of the $48K at-risk revenue recoverable this week.</p>`
+    : role==='analyst'
+    ? `<p style="font-size:12.5px;color:#9fc0ee;margin-top:4px">Analyst lens: scores below default to the <b>Industry</b> tier — tenant data is too sparse (AUC 0.67) to ground reliably.</p>`
+    : `<p style="font-size:12.5px;color:#9fc0ee;margin-top:4px">Every figure below is traceable to a model score — click <b>“Grounded by”</b> on any metric to see the evidence.</p>`;
+  view.innerHTML = `
+   <div class="rep">
+     <div class="subnav">
+       <h3>Reports</h3>
+       <div class="grp">Automations <span>&rsaquo;</span></div>
+       <div class="grp">Contacts <span>&rsaquo;</span></div>
+       <div class="grp">Campaigns <span>&#709;</span></div>
+       <div class="it">All Campaigns Performance</div>
+       <div class="it">Email Client Trends</div>
+       <div class="it">Predictive Content</div>
+       <div class="it on">✨ Active Intelligence</div>
+       <div class="grp">WhatsApp <span>&rsaquo;</span></div>
+       <div class="grp">Website <span>&rsaquo;</span></div>
+       <div class="it">Marketing Revenue</div>
+       <div class="it">Ecommerce Dashboard</div>
+     </div>
+     <div class="repmain">
+       <div class="crumbs">Reports / Campaigns / Active Intelligence</div>
+       <h1>Active Intelligence</h1>
+       <div class="filters">
+         <span class="filt">Goal: Retention &#709;</span>
+         <span class="filt">Segment: Mid-tier &#709;</span>
+         <span class="filt">Model tier: Industry &#709;</span>
+         <span class="filt range">Date range: 05/11/2026 – 06/10/2026 &#709;</span>
+       </div>
+       <div class="overview">
+         <span class="ai">AI OVERVIEW</span>
+         <h4>Freeform summary — generated &amp; grounded ${new Date().toLocaleDateString()}</h4>
+         <p>Retention risk rose in your <b>mid-tier cohort</b> this period. The driver is not offer weakness — it’s <span class="bd">email fatigue</span>: 62% of at-risk accounts now exceed 4 emails/week, and they’re also price-sensitive, pushing churn to <span class="bd">2.3× baseline</span>.</p>
+         <p>The grounded path forward is a <span class="gd">loyalty offer delivered over SMS</span> with email capped — the Campaign layer scores this shape at <span class="gd">0.83</span> for your vertical, and the Individual layer shows SMS affinity rising to <span class="gd">0.79</span>. Projected lift: <span class="gd">+18 pts retention</span> on the cohort.</p>
+         ${execNote}
+       </div>
+       <div class="layers">${['content','campaign','individual'].map(layerPanel).join('')}</div>
+       <div style="margin-top:18px"><a class="btn primary" href="builder.html?id=c1">Act on this — review the grounded play &rarr;</a></div>
+     </div>
+   </div>`;
+}
+
+document.addEventListener('click', e=>{
+  const g = e.target.closest('.ground'); if(!g) return;
+  document.getElementById('g-'+g.dataset.g).classList.toggle('open');
+});
+
+Shell.mount(render);
+</script>
+<script src="assets/tour.js"></script>
+</body>
+</html>

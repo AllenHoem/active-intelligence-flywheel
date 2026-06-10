@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Active Intelligence — Automations</title>
+<link rel="stylesheet" href="assets/app.css">
+<style>
+  .auto{padding:24px 30px;max-width:920px}
+  .auto .promptline{background:#0c1020;color:#cfdaf0;border-radius:12px;padding:14px 16px;font-size:14px;margin-bottom:8px;display:flex;gap:10px;align-items:center}
+  .auto .promptline .you{background:#1a2140;color:#aab4d4;font-size:11px;font-weight:700;border-radius:6px;padding:3px 8px}
+  .agentline{display:flex;gap:10px;align-items:flex-start;margin:14px 0 18px}
+  .agentline .av{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#7c5cff,#d8417e);flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800}
+  .agentline .ab{font-size:13.5px;color:#33405a;line-height:1.6}
+  .agentline .ab b{color:var(--ink)}
+  .flow{position:relative;margin:6px 0 0 14px;padding-left:26px;border-left:2px dashed #c9d4e6}
+  .node{position:relative;background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px 15px;margin-bottom:16px;box-shadow:0 1px 3px rgba(20,40,80,.05)}
+  .node::before{content:"";position:absolute;left:-34px;top:18px;width:13px;height:13px;border-radius:50%;background:#fff;border:3px solid var(--blue)}
+  .node.entry::before{border-color:var(--teal)} .node.goal::before{border-color:var(--gold)}
+  .node .ntype{font-size:10px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--muted)}
+  .node .nh{font-size:14.5px;font-weight:700;margin:2px 0 5px}
+  .node .nd{font-size:12.8px;color:#56627a;line-height:1.5}
+  .node .ng{margin-top:9px;display:flex;flex-wrap:wrap;gap:6px}
+  .node .gc{font-size:11px;border:1px solid var(--line);border-radius:7px;padding:4px 8px;display:flex;gap:6px;align-items:center;background:#fbfcfe}
+  .node .gc .lyr{width:8px;height:8px;border-radius:2px}
+  .actbar{display:flex;gap:10px;align-items:center;margin-top:6px}
+</style>
+</head>
+<body data-page="automations" data-title="Automations · Automate for me">
+<script src="assets/data.js"></script>
+<script src="assets/shell.js"></script>
+<script>
+function chip(l,t){ return `<span class="gc"><span class="lyr" style="background:${DATA.LYR[l]}"></span>${t}</span>`; }
+function render(view){
+  view.innerHTML = `
+  <div class="auto">
+    <div class="promptline"><span class="you">You</span> Automate retention for my at-risk mid-tier accounts before renewal.</div>
+    <div class="agentline">
+      <div class="av">✦</div>
+      <div class="ab">I built a grounded journey from your telemetry. It throttles email for the fatigued cohort, leads on SMS (where affinity is highest), and attaches the loyalty offer that scores best for these accounts. <b>Every step is tied to a layer score</b> — here’s the draft:</div>
+    </div>
+
+    <div class="flow">
+      <div class="node entry">
+        <div class="ntype">Entry · trigger</div>
+        <div class="nh">Contact enters “At-risk · mid-tier” segment</div>
+        <div class="nd">Auto-built cohort: 3,184 accounts, over-mailed (&gt;4/wk) and price-sensitive, resolved to one individual_id each.</div>
+        <div class="ng">${chip('individual','Individual layer · churn-risk')}</div>
+      </div>
+      <div class="node">
+        <div class="ntype">Condition</div>
+        <div class="nh">If email_freq_7d &gt; 4 → throttle email to 1/week</div>
+        <div class="nd">The over-mailing signal is the top churn driver this week; the bandit assigns added broadcast email a negative marginal value.</div>
+        <div class="ng">${chip('individual','Email fatigue index')} <span class="gc">cMAB · −0.34 marginal</span></div>
+      </div>
+      <div class="node">
+        <div class="ntype">Action · send</div>
+        <div class="nh">SMS — loyalty offer (“We’ve missed you”, 15% renewal credit)</div>
+        <div class="nd">Best-scoring of 6 creative variants for this cohort; sent Tue–Thu with per-individual send-time optimization.</div>
+        <div class="ng">${chip('content','Content Impact 0.71')} ${chip('individual','SMS affinity 0.79')}</div>
+      </div>
+      <div class="node">
+        <div class="ntype">Branch</div>
+        <div class="nh">Clicked? → tag “renewal intent” · Not? → wait 3d, in-app nudge</div>
+        <div class="nd">Automation shape trained on 2.1K comparable journeys in your vertical; the 3-step SMS-first shape outscores broadcast.</div>
+        <div class="ng">${chip('campaign','Goal→Automation 0.83')} <span class="gc">Industry model</span></div>
+      </div>
+      <div class="node goal">
+        <div class="ntype">Goal · exit</div>
+        <div class="nh">Renewal completed → exit “retained”</div>
+        <div class="nd">Projected lift +18 pts retention on the cohort. Outcomes feed back to the semantic layers to re-ground the next play.</div>
+        <div class="ng">${chip('campaign','+18 pts predicted')}</div>
+      </div>
+    </div>
+
+    <div class="actbar">
+      <button class="btn primary lg" id="activate">Activate automation</button>
+      <a class="btn ghost" href="builder.html?id=c1">Open as campaign</a>
+      <span class="sec-sub" style="margin:0">Grounding confidence 86% · passes the eval bar</span>
+    </div>
+  </div>`;
+  document.getElementById('activate').onclick = ()=> Shell.toast('✓ Automation activated — the agent will monitor and re-score in real time');
+}
+Shell.mount(render);
+</script>
+<script src="assets/tour.js"></script>
+</body>
+</html>
