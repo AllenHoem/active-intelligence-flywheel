@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Active Intelligence — The Continuous Agentic Learning Loop</title>
+<style>
+  :root{
+    --navy:#1F3A5F; --blue:#2E75B6; --accent:#C44536; --light:#EAF1F8;
+    --ink:#1c2530; --muted:#64748b; --line:#dce4ee; --good:#16895a; --bg:#f4f7fb;
+    --card:#ffffff; --code:#0f2238;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1180px;margin:0 auto;padding:24px 22px 60px}
+  header.top{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:12px;
+    border-bottom:2px solid var(--navy);padding-bottom:14px;margin-bottom:8px}
+  .brand{font-weight:800;letter-spacing:.5px;color:var(--navy);font-size:13px}
+  h1{font-size:25px;margin:6px 0 2px;color:var(--navy)}
+  .sub{color:var(--muted);font-size:14px;margin:0}
+  .tagchip{display:inline-block;background:var(--light);color:var(--navy);font-size:11px;font-weight:700;
+    padding:4px 9px;border-radius:20px;letter-spacing:.4px}
+  .layout{display:grid;grid-template-columns:300px 1fr;gap:22px;margin-top:22px}
+  @media(max-width:880px){.layout{grid-template-columns:1fr}}
+
+  /* Flywheel diagram */
+  .wheelcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 16px;
+    position:sticky;top:18px;box-shadow:0 2px 10px rgba(20,40,70,.05)}
+  .wheelcard h3{margin:0 0 4px;font-size:13px;letter-spacing:.4px;color:var(--muted);text-transform:uppercase}
+  svg{width:100%;height:auto;display:block}
+  .quad{cursor:default;transition:all .35s ease}
+  .quad-label{font-size:11px;font-weight:700;fill:var(--navy)}
+  .velo{margin-top:14px;text-align:center;border-top:1px solid var(--line);padding-top:12px}
+  .velo .num{font-size:30px;font-weight:800;color:var(--accent);line-height:1}
+  .velo .lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-top:3px}
+  .ctxbox{margin-top:12px;background:var(--code);border-radius:10px;padding:10px 12px;font-family:"SF Mono",Consolas,monospace;
+    font-size:10.5px;color:#bcd3ee;max-height:150px;overflow:auto}
+  .ctxbox .k{color:#7fb2e8}.ctxbox .v{color:#e8be86}.ctxbox .g{color:#6fd3a0}
+
+  /* Stage column */
+  .stage{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:0;overflow:hidden;
+    box-shadow:0 2px 10px rgba(20,40,70,.05)}
+  .stepbar{display:flex;background:#fbfcfe;border-bottom:1px solid var(--line);overflow:hidden}
+  .step{flex:1;text-align:center;padding:9px 4px;font-size:10.5px;font-weight:700;color:var(--muted);
+    border-right:1px solid var(--line);position:relative;letter-spacing:.2px}
+  .step:last-child{border-right:none}
+  .step.active{color:#fff;background:var(--navy)}
+  .step.done{color:var(--good)}
+  .step .n{display:block;font-size:14px;margin-bottom:1px}
+  .body{padding:22px 24px;min-height:430px}
+  .ph-eyebrow{font-size:11px;font-weight:800;letter-spacing:1px;color:var(--accent);text-transform:uppercase}
+  .ph-title{font-size:20px;font-weight:800;color:var(--navy);margin:3px 0 10px}
+  .ph-desc{color:var(--muted);font-size:14px;margin-bottom:16px}
+
+  label.fld{display:block;font-size:12px;font-weight:700;color:var(--navy);margin:14px 0 5px}
+  select,input[type=text]{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:9px;
+    font-size:14px;font-family:inherit;background:#fff;color:var(--ink)}
+  .range-row{display:flex;align-items:center;gap:12px}
+  input[type=range]{flex:1;accent-color:var(--accent)}
+  .range-val{font-weight:800;color:var(--accent);min-width:54px;text-align:right;font-size:16px}
+
+  .btn{appearance:none;border:none;cursor:pointer;font-family:inherit;font-weight:700;border-radius:10px;
+    padding:13px 20px;font-size:14px;transition:.15s;display:inline-flex;align-items:center;gap:8px}
+  .btn.primary{background:var(--accent);color:#fff}
+  .btn.primary:hover{background:#a93729}
+  .btn.ghost{background:#fff;color:var(--navy);border:1px solid var(--line)}
+  .btn.ghost:hover{background:var(--light)}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px;align-items:center}
+  .hint{font-size:12px;color:var(--muted)}
+
+  /* signal stream */
+  .stream{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
+  .sig{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:10px;padding:9px 12px;
+    opacity:0;transform:translateY(8px);transition:.4s;background:#fff}
+  .sig.show{opacity:1;transform:none}
+  .sig .ch{font-size:10px;font-weight:800;color:#fff;padding:3px 7px;border-radius:6px;letter-spacing:.4px}
+  .ch.email{background:#2E75B6}.ch.sms{background:#16895a}.ch.web{background:#7c3aed}.ch.wa{background:#0f9d58}
+  .sig .txt{font-size:12.5px;color:var(--ink)}
+  .counter{margin-top:14px;font-size:13px;color:var(--muted)}
+  .counter b{color:var(--navy);font-size:16px}
+
+  /* semantic abstraction */
+  .trust{display:grid;grid-template-columns:1fr 46px 1fr;gap:8px;align-items:stretch;margin-top:8px}
+  @media(max-width:600px){.trust{grid-template-columns:1fr}}
+  .col{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff}
+  .col h4{margin:0 0 8px;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
+  .raw{font-size:12.5px;color:#475569;border-left:3px solid var(--line);padding:6px 10px;margin:6px 0;background:#fbfcfe;border-radius:0 6px 6px 0}
+  .barrier{display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--accent);font-weight:800;font-size:9px}
+  .barrier .ico{font-size:20px}
+  .barrier .v{writing-mode:vertical-rl;text-orientation:mixed;letter-spacing:1px;margin-top:4px}
+  .matrix{font-family:"SF Mono",Consolas,monospace;font-size:11.5px;background:var(--code);color:#bcd3ee;
+    border-radius:8px;padding:8px 10px;margin:6px 0;opacity:0;transition:.4s}
+  .matrix.show{opacity:1}
+  .matrix .tag{color:#e8be86}
+  .pii{display:inline-block;background:#fde8e6;color:var(--accent);font-weight:700;border-radius:5px;padding:1px 5px;font-size:11px}
+
+  /* reasoning agent */
+  .think{background:var(--code);border-radius:12px;padding:14px 16px;color:#c9dcf0;font-size:13px;
+    font-family:"SF Mono",Consolas,monospace;min-height:120px;line-height:1.7}
+  .think .lead{color:#7fb2e8;font-weight:700;font-size:11px;letter-spacing:.5px;text-transform:uppercase;display:block;margin-bottom:8px}
+  .think .ln{display:block;opacity:0;transform:translateX(-6px);transition:.3s}
+  .think .ln.show{opacity:1;transform:none}
+  .think .ln::before{content:"▸ ";color:var(--accent)}
+  .insight{margin-top:16px;border:1px solid var(--line);border-radius:12px;overflow:hidden;opacity:0;transition:.5s}
+  .insight.show{opacity:1}
+  .insight .ihead{background:var(--navy);color:#fff;padding:9px 14px;font-weight:800;font-size:13px;display:flex;align-items:center;gap:8px}
+  .insight .ibody{padding:14px 16px}
+  .insight h5{margin:0 0 4px;color:var(--accent);font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+  .insight p{margin:0 0 12px;font-size:14px}
+  .evidence{font-size:12px;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px}
+  .evidence b{color:var(--navy)}
+
+  /* cMAB routing */
+  .tactic{margin:10px 0}
+  .tactic .tl{display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px}
+  .tactic .tl b{color:var(--navy)}
+  .tactic .delta{font-weight:700}
+  .track{height:14px;background:#eef2f7;border-radius:8px;overflow:hidden}
+  .fill{height:100%;width:0;border-radius:8px;transition:width 1s cubic-bezier(.22,1,.36,1)}
+  .up{color:var(--good)}.down{color:var(--accent)}
+
+  .loopclose{text-align:center;padding:10px 0}
+  .loopclose .big{font-size:17px;font-weight:800;color:var(--navy);margin-bottom:6px}
+  .pill{display:inline-block;background:var(--light);color:var(--navy);border-radius:20px;padding:6px 13px;font-size:12.5px;font-weight:700;margin:4px}
+  .foot{margin-top:26px;text-align:center;color:var(--muted);font-size:12px;border-top:1px solid var(--line);padding-top:16px}
+  .pulse{animation:pulse 1.4s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <span class="tagchip">ACTIVE INTELLIGENCE · INTERACTIVE PROTOTYPE</span>
+      <h1>The Continuous Agentic Learning Loop</h1>
+      <p class="sub">Declare a goal → the Flywheel reasons, acts, and learns. The Deep Reasoning Agent, staged inside the full loop.</p>
+    </div>
+    <div class="hint">Guided simulation · Allen Hoem · June 2026</div>
+  </header>
+
+  <div class="layout">
+    <!-- Flywheel side -->
+    <aside class="wheelcard">
+      <h3>The Flywheel</h3>
+      <svg viewBox="0 0 220 220" id="wheel">
+        <defs>
+          <marker id="arw" markerWidth="9" markerHeight="9" refX="5" refY="3" orient="auto">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#2E75B6"/>
+          </marker>
+        </defs>
+        <circle cx="110" cy="110" r="78" fill="none" stroke="#dce4ee" stroke-width="2"/>
+        <!-- rotating arrows on the ring -->
+        <path d="M110,32 A78,78 0 0,1 188,110" fill="none" stroke="#cbd9ea" stroke-width="2" marker-end="url(#arw)"/>
+        <path d="M188,110 A78,78 0 0,1 110,188" fill="none" stroke="#cbd9ea" stroke-width="2" marker-end="url(#arw)"/>
+        <path d="M110,188 A78,78 0 0,1 32,110" fill="none" stroke="#cbd9ea" stroke-width="2" marker-end="url(#arw)"/>
+        <path d="M32,110 A78,78 0 0,1 110,32" fill="none" stroke="#cbd9ea" stroke-width="2" marker-end="url(#arw)"/>
+        <!-- quadrant nodes -->
+        <g id="q-context" class="quad"><circle cx="110" cy="34" r="26" fill="#EAF1F8" stroke="#2E75B6" stroke-width="2"/><text x="110" y="31" text-anchor="middle" class="quad-label">CONTEXT</text><text x="110" y="43" text-anchor="middle" font-size="8" fill="#64748b">goals · signals</text></g>
+        <g id="q-reason" class="quad"><circle cx="186" cy="110" r="26" fill="#EAF1F8" stroke="#2E75B6" stroke-width="2"/><text x="186" y="108" text-anchor="middle" class="quad-label">REASON</text><text x="186" y="120" text-anchor="middle" font-size="8" fill="#64748b">why · next</text></g>
+        <g id="q-engage" class="quad"><circle cx="110" cy="186" r="26" fill="#EAF1F8" stroke="#2E75B6" stroke-width="2"/><text x="110" y="184" text-anchor="middle" class="quad-label">ENGAGE</text><text x="110" y="196" text-anchor="middle" font-size="8" fill="#64748b">route · act</text></g>
+        <g id="q-learn" class="quad"><circle cx="34" cy="110" r="26" fill="#EAF1F8" stroke="#2E75B6" stroke-width="2"/><text x="34" y="108" text-anchor="middle" class="quad-label">LEARN</text><text x="34" y="120" text-anchor="middle" font-size="8" fill="#64748b">enrich</text></g>
+        <circle cx="110" cy="110" r="18" fill="#1F3A5F"/><text x="110" y="114" text-anchor="middle" font-size="9" fill="#fff" font-weight="bold">AI</text>
+      </svg>
+      <div class="velo">
+        <div class="num" id="veloNum">1.0×</div>
+        <div class="lbl">Lifecycle velocity</div>
+      </div>
+      <div class="ctxbox" id="ctxbox">
+        <div><span class="k">context_object</span>: {</div>
+        <div>&nbsp;&nbsp;<span class="k">declared_goal</span>: <span class="v">"—"</span>,</div>
+        <div>&nbsp;&nbsp;<span class="k">signals_ingested</span>: <span class="g">0</span>,</div>
+        <div>&nbsp;&nbsp;<span class="k">loops_completed</span>: <span class="g">0</span></div>
+        <div>}</div>
+      </div>
+    </aside>
+
+    <!-- Stage column -->
+    <main class="stage">
+      <div class="stepbar" id="stepbar">
+        <div class="step active" data-s="0"><span class="n">A</span>Declare</div>
+        <div class="step" data-s="1"><span class="n">B</span>Ingest</div>
+        <div class="step" data-s="2"><span class="n">C</span>Abstract</div>
+        <div class="step" data-s="3"><span class="n">D</span>Reason</div>
+        <div class="step" data-s="4"><span class="n">E</span>Route</div>
+        <div class="step" data-s="5"><span class="n">↻</span>Learn</div>
+      </div>
+      <div class="body" id="body"></div>
+    </main>
+  </div>
+
+  <div class="foot">
+    Prototype companion to the strategic blueprint · Deeper context → more powerful reasoning → more engagement → richer context
+  </div>
+</div>
+
+<script>
+const GOALS = {
+  retention: {
+    label:"Increase Q3 retention", unit:"%", def:15,
+    raw:[
+      {ch:"email",cls:"email",t:'"Unsubscribe — too many emails lately."'},
+      {ch:"web",cls:"web",t:'Viewed /pricing 3× but did not renew'},
+      {ch:"sms",cls:"sms",t:'"Is there a loyalty discount?"'},
+      {ch:"email",cls:"email",t:'Opened win-back, ignored CTA'}
+    ],
+    matrix:[
+      '[Intent: Churn-risk] [Sentiment: Fatigue] [Trigger: Frequency]',
+      '[Intent: Renewal-consider] [Signal: Price-sensitive]',
+      '[Intent: Retain] [Lever: Loyalty-offer]',
+      '[Intent: Re-engage] [Friction: CTA-mismatch]'
+    ],
+    think:[
+      "Cohort scan: 62% of at-risk accounts share one trait — email frequency above 4/week in the last 21 days.",
+      "Cross-channel join: price-sensitive web visitors who also flagged email fatigue churn 2.3× the baseline.",
+      "Counter-signal: accounts offered a loyalty lever in-SMS retained 18pts higher in the matched control.",
+      "Conclusion forming: the lever is not more touches — it is fewer, with a loyalty offer on the right channel."
+    ],
+    why:"Engagement didn't drop because your offer is weak — it dropped because high-value accounts are fatigued. The churn-risk cohort is over-mailed (>4/week) and price-sensitive at the same time. Volume is suppressing the very segment you most want to keep.",
+    next:"Cap email frequency for the at-risk cohort, shift the renewal nudge to SMS, and attach a loyalty offer. Reallocate exploration budget away from broadcast email toward SMS+loyalty for this segment only.",
+    evidence:"3,184 at-risk accounts · 62% over-mailed · matched control +18pt retention on loyalty lever · confidence 0.86",
+    tactics:[
+      {name:"Broadcast email (4+/wk)",from:42,to:18,dir:"down"},
+      {name:"SMS + loyalty offer",from:14,to:39,dir:"up"},
+      {name:"In-app renewal nudge",from:26,to:31,dir:"up"},
+      {name:"Win-back email",from:18,to:12,dir:"down"}
+    ]
+  },
+  acquisition:{
+    label:"Grow Q3 new-customer acquisition", unit:"%", def:20,
+    raw:[
+      {ch:"web",cls:"web",t:'First-touch from comparison blog, bounced at signup'},
+      {ch:"email",cls:"email",t:'Lead magnet opened, no follow-through'},
+      {ch:"wa",cls:"wa",t:'"Do you integrate with Shopify?"'},
+      {ch:"web",cls:"web",t:'Returned 2× to /features, no demo booked'}
+    ],
+    matrix:[
+      '[Intent: Evaluate] [Stage: Top-funnel] [Friction: Signup]',
+      '[Intent: Interest] [Signal: Cold-lead]',
+      '[Intent: Qualify] [Need: Integration-proof]',
+      '[Intent: High-consideration] [Gap: No-demo]'
+    ],
+    think:[
+      "Funnel scan: 71% of qualified first-touches stall between /features and demo-booking.",
+      "Cross-channel join: leads asking integration questions convert 3.1× once shown a proof-point, but most never see one.",
+      "Counter-signal: a WhatsApp-delivered integration snippet lifted demo-booking 22pts in the matched control.",
+      "Conclusion forming: the bottleneck is unanswered integration doubt at high-consideration, not top-funnel volume."
+    ],
+    why:"You're not short on interest — you're short on proof at the moment of doubt. High-consideration leads return to /features and ask about integrations, but the journey never surfaces an integration proof-point, so they stall before booking a demo.",
+    next:"Trigger an integration-proof message (WhatsApp where opted-in, else email) the moment a lead asks or revisits /features. Move budget from cold top-funnel email to mid-funnel proof delivery.",
+    evidence:"4,902 qualified first-touches · 71% stall pre-demo · matched control +22pt demo-booking · confidence 0.83",
+    tactics:[
+      {name:"Cold top-funnel email",from:38,to:20,dir:"down"},
+      {name:"WhatsApp integration proof",from:9,to:34,dir:"up"},
+      {name:"Mid-funnel retarget",from:24,to:30,dir:"up"},
+      {name:"Generic welcome series",from:29,to:16,dir:"down"}
+    ]
+  },
+  reactivation:{
+    label:"Reactivate dormant subscribers", unit:"%", def:12,
+    raw:[
+      {ch:"email",cls:"email",t:'No open in 90 days'},
+      {ch:"sms",cls:"sms",t:'"Stop"... then clicked a link 2 weeks later'},
+      {ch:"web",cls:"web",t:'Anonymous return visit to /blog'},
+      {ch:"email",cls:"email",t:'Opened only "subject: your account" type mail'}
+    ],
+    matrix:[
+      '[Intent: Dormant] [Signal: Disengaged]',
+      '[Intent: Ambivalent] [Channel-pref: shifting]',
+      '[Intent: Latent-interest] [Topic: Content]',
+      '[Intent: Account-driven] [Trigger: Utility]'
+    ],
+    think:[
+      "Dormancy scan: 58% of 90-day-dormant contacts still click utility/account emails, not promotional ones.",
+      "Cross-channel join: dormant contacts who later browse /blog re-activate 2.6× on a content-led re-entry.",
+      "Counter-signal: promotional win-backs underperform utility+content framing by 15pts in the matched control.",
+      "Conclusion forming: re-entry should lead with utility and content, not a discount blast."
+    ],
+    why:"Your dormant list isn't dead — it's tuned out promotions specifically. They still engage utility and account messages, and a slice quietly returns to your content. A discount-led win-back talks past exactly the signal they're giving you.",
+    next:"Replace the promotional win-back with a utility + content re-entry sequence, suppress promo creative for 90-day-dormant contacts, and route a content digest to recent /blog returners.",
+    evidence:"11,740 dormant contacts · 58% engage utility mail · matched control +15pt reactivation · confidence 0.79",
+    tactics:[
+      {name:"Promotional win-back",from:40,to:17,dir:"down"},
+      {name:"Utility + content re-entry",from:16,to:38,dir:"up"},
+      {name:"Content digest (blog)",from:18,to:31,dir:"up"},
+      {name:"Discount blast",from:26,to:14,dir:"down"}
+    ]
+  }
+};
+
+let state = { goal:"retention", target:15, loops:0, velocity:1.0, signals:0 };
+const body = document.getElementById('body');
+const steps = [...document.querySelectorAll('.step')];
+
+function setStep(s){
+  steps.forEach(el=>{
+    const n = +el.dataset.s;
+    el.classList.toggle('active', n===s);
+    el.classList.toggle('done', n<s);
+  });
+  highlightQuad(s);
+}
+function highlightQuad(s){
+  const map={0:'q-context',1:'q-context',2:'q-context',3:'q-reason',4:'q-engage',5:'q-learn'};
+  ['q-context','q-reason','q-engage','q-learn'].forEach(id=>{
+    const c=document.querySelector('#'+id+' circle');
+    c.setAttribute('fill','#EAF1F8'); c.setAttribute('stroke-width','2');
+    const lbl=document.querySelector('#'+id+' .quad-label');
+    if(lbl) lbl.setAttribute('fill','#1F3A5F');
+  });
+  const c=document.querySelector('#'+map[s]+' circle');
+  c.setAttribute('fill','#2E75B6'); c.setAttribute('stroke-width','3');
+  document.querySelectorAll('#'+map[s]+' text').forEach(tx=>{ if(tx.classList.contains('quad-label')) tx.setAttribute('fill','#fff'); });
+}
+function updateContext(extra){
+  const g=GOALS[state.goal];
+  document.getElementById('ctxbox').innerHTML =
+    '<div><span class="k">context_object</span>: {</div>'+
+    '<div>&nbsp;&nbsp;<span class="k">declared_goal</span>: <span class="v">"'+g.label+' +'+state.target+g.unit+'"</span>,</div>'+
+    '<div>&nbsp;&nbsp;<span class="k">signals_ingested</span>: <span class="g">'+state.signals.toLocaleString()+'</span>,</div>'+
+    '<div>&nbsp;&nbsp;<span class="k">loops_completed</span>: <span class="g">'+state.loops+'</span>'+(extra?',':'')+'</div>'+
+    (extra?'<div>&nbsp;&nbsp;'+extra+'</div>':'')+
+    '<div>}</div>';
+  document.getElementById('veloNum').textContent = state.velocity.toFixed(1)+'×';
+}
+
+/* ---------- STAGE A: Declare ---------- */
+function renderDeclare(){
+  setStep(0);
+  const g=GOALS[state.goal];
+  body.innerHTML = `
+    <div class="ph-eyebrow">Phase A · Declarative input</div>
+    <div class="ph-title">Declare the outcome, not the flowchart</div>
+    <div class="ph-desc">The marketer states a top-level business goal and brand guardrails. No logic branches. The Declarative Goal becomes a machine-readable contract the agents operate within.</div>
+    <label class="fld">Business goal</label>
+    <select id="goalSel">
+      <option value="retention">Increase Q3 retention</option>
+      <option value="acquisition">Grow new-customer acquisition</option>
+      <option value="reactivation">Reactivate dormant subscribers</option>
+    </select>
+    <label class="fld">Target metric delta</label>
+    <div class="range-row">
+      <input type="range" id="tgt" min="5" max="30" value="${state.target}">
+      <span class="range-val" id="tgtVal">+${state.target}%</span>
+    </div>
+    <label class="fld">Brand voice</label>
+    <select id="voice">
+      <option>Warm · helpful · concise (brand_voice_id: ac_default)</option>
+      <option>Premium · understated</option>
+      <option>Bold · playful</option>
+    </select>
+    <div class="actions">
+      <button class="btn primary" id="runBtn">Run the Flywheel ▸</button>
+      <span class="hint">Watch the loop reason, act, and learn.</span>
+    </div>`;
+  document.getElementById('goalSel').value = state.goal;
+  document.getElementById('goalSel').onchange = e=>{ state.goal=e.target.value; state.target=GOALS[state.goal].def;
+    document.getElementById('tgt').value=state.target; document.getElementById('tgtVal').textContent='+'+state.target+'%'; updateContext(); };
+  document.getElementById('tgt').oninput = e=>{ state.target=+e.target.value; document.getElementById('tgtVal').textContent='+'+state.target+'%'; updateContext(); };
+  document.getElementById('runBtn').onclick = renderIngest;
+  updateContext();
+}
+
+/* ---------- STAGE B: Ingest ---------- */
+function renderIngest(){
+  setStep(1);
+  const g=GOALS[state.goal];
+  body.innerHTML = `
+    <div class="ph-eyebrow">Phase B · Omni-channel ingestion</div>
+    <div class="ph-title">Signals stream in across every channel</div>
+    <div class="ph-desc">Asynchronous events from Email, SMS, Web, and WhatsApp flow into the Context Layer and resolve to a single authoritative individual_id.</div>
+    <div class="stream" id="stream">
+      ${g.raw.map((s,i)=>`<div class="sig" id="sig${i}"><span class="ch ${s.cls}">${s.ch.toUpperCase()}</span><span class="txt">${s.t}</span></div>`).join('')}
+    </div>
+    <div class="counter">Events ingested this wave: <b id="cnt">0</b> &nbsp;·&nbsp; resolved to <b id="ids">0</b> individuals</div>
+    <div class="actions"><button class="btn primary" id="next" disabled>Next: Semantic abstraction ▸</button></div>`;
+  let i=0, base = 1840 + Math.floor(Math.random()*400);
+  const tick=()=>{
+    if(i<g.raw.length){
+      document.getElementById('sig'+i).classList.add('show');
+      state.signals += base;
+      document.getElementById('cnt').textContent = ((i+1)*base).toLocaleString();
+      document.getElementById('ids').textContent = Math.round((i+1)*base/3.1).toLocaleString();
+      updateContext(); i++; setTimeout(tick,620);
+    } else { document.getElementById('next').disabled=false; }
+  };
+  setTimeout(tick,300);
+  document.getElementById('next').onclick = renderAbstract;
+}
+
+/* ---------- STAGE C: Semantic abstraction ---------- */
+function renderAbstract(){
+  setStep(2);
+  const g=GOALS[state.goal];
+  body.innerHTML = `
+    <div class="ph-eyebrow">Phase C · Semantic abstraction</div>
+    <div class="ph-title">Mask PII, keep meaning — the trust boundary</div>
+    <div class="ph-desc">A small-parameter LLM converts raw copy into a generalized intent matrix. Customer words, identity, and proprietary strategy stay behind the boundary; only meaning crosses for cross-tenant learning.</div>
+    <div class="trust">
+      <div class="col"><h4>Raw signal (tenant-private)</h4>
+        ${g.raw.map(s=>`<div class="raw">${s.t}</div>`).join('')}
+      </div>
+      <div class="barrier"><div class="ico">🛡️</div><div class="v">TRUST BOUNDARY</div></div>
+      <div class="col"><h4>Generalized intent matrix</h4>
+        ${g.matrix.map((m,i)=>`<div class="matrix" id="mx${i}"><span class="tag">${m}</span></div>`).join('')}
+      </div>
+    </div>
+    <div class="counter" style="margin-top:12px"><span class="pii">PII removed</span> &nbsp;<span class="pii">identity stripped</span> &nbsp;<span class="pii">strategy masked</span> &nbsp;→ 100% protection</div>
+    <div class="actions"><button class="btn primary" id="next" disabled>Next: Deep Reasoning Agent ▸</button></div>`;
+  let i=0;
+  const tick=()=>{ if(i<g.matrix.length){ document.getElementById('mx'+i).classList.add('show'); i++; setTimeout(tick,520); }
+    else document.getElementById('next').disabled=false; };
+  setTimeout(tick,400);
+  document.getElementById('next').onclick = renderReason;
+}
+
+/* ---------- STAGE D: Deep Reasoning Agent ---------- */
+function renderReason(){
+  setStep(3);
+  const g=GOALS[state.goal];
+  body.innerHTML = `
+    <div class="ph-eyebrow">Phase D · Deep Reasoning Agent</div>
+    <div class="ph-title">Extended thinking — why, and what to do next</div>
+    <div class="ph-desc">The agent reasons over the context against your declared goal. Not a metric — an explanation with an evidence trail and a recommended action.</div>
+    <div class="think"><span class="lead pulse" id="thinkLead">Agent reasoning…</span>
+      ${g.think.map((l,i)=>`<span class="ln" id="ln${i}">${l}</span>`).join('')}
+    </div>
+    <div class="insight" id="insight">
+      <div class="ihead">🧠 Marketing-grade insight</div>
+      <div class="ibody">
+        <h5>Why engagement shifted</h5><p>${g.why}</p>
+        <h5>What to do next</h5><p>${g.next}</p>
+        <div class="evidence"><b>Evidence trail:</b> ${g.evidence}</div>
+      </div>
+    </div>
+    <div class="actions"><button class="btn primary" id="next" disabled>Next: cMAB routing ▸</button></div>`;
+  let i=0;
+  const tick=()=>{ if(i<g.think.length){ document.getElementById('ln'+i).classList.add('show'); i++; setTimeout(tick,780); }
+    else { document.getElementById('thinkLead').textContent='Reasoning complete'; document.getElementById('thinkLead').classList.remove('pulse');
+      setTimeout(()=>{ document.getElementById('insight').classList.add('show'); document.getElementById('next').disabled=false; },400); } };
+  setTimeout(tick,500);
+  document.getElementById('next').onclick = renderRoute;
+}
+
+/* ---------- STAGE E: cMAB routing ---------- */
+function renderRoute(){
+  setStep(4);
+  const g=GOALS[state.goal];
+  body.innerHTML = `
+    <div class="ph-eyebrow">Phase E · Execution & feedback</div>
+    <div class="ph-title">cMAB updates live routing weights</div>
+    <div class="ph-desc">The contextual bandit reallocates traffic toward what the agent expects to work — within the exploration budget — and pushes new weights to live campaigns via API.</div>
+    <div id="tactics">
+      ${g.tactics.map((tc,i)=>`
+        <div class="tactic">
+          <div class="tl"><b>${tc.name}</b><span class="delta ${tc.dir}" id="d${i}">${tc.from}%</span></div>
+          <div class="track"><div class="fill" id="f${i}" style="background:${tc.dir==='up'?'#16895a':'#C44536'}"></div></div>
+        </div>`).join('')}
+    </div>
+    <div class="actions"><button class="btn primary" id="next" disabled>Close the loop ▸</button></div>`;
+  setTimeout(()=>{
+    g.tactics.forEach((tc,i)=>{
+      document.getElementById('f'+i).style.width = tc.to+'%';
+      let cur=tc.from; const step=(tc.to-tc.from)/24;
+      const iv=setInterval(()=>{ cur+=step;
+        if((step>0&&cur>=tc.to)||(step<0&&cur<=tc.to)){cur=tc.to;clearInterval(iv);}
+        document.getElementById('d'+i).textContent = Math.round(cur)+'%';
+      },42);
+    });
+    setTimeout(()=>document.getElementById('next').disabled=false,1100);
+  },300);
+  document.getElementById('next').onclick = renderLearn;
+}
+
+/* ---------- LOOP CLOSE: Learn ---------- */
+function renderLearn(){
+  setStep(5);
+  state.loops += 1;
+  state.velocity = +(state.velocity + 1.6 + Math.random()*0.6).toFixed(1);
+  updateContext('<span class="k">industry_model</span>: <span class="g">+'+state.loops+' patterns</span>');
+  const g=GOALS[state.goal];
+  body.innerHTML = `
+    <div class="ph-eyebrow">↻ Loop close · Learn</div>
+    <div class="ph-title">The context is now richer than it started</div>
+    <div class="ph-desc">Outcomes from this wave flow back as fresh signal. The context object is enriched, the Industry Model absorbs a new pattern (PII-free), and the next loop starts smarter — that's the Flywheel compounding.</div>
+    <div class="loopclose">
+      <div class="big">Loop ${state.loops} complete · lifecycle velocity now ${state.velocity.toFixed(1)}×</div>
+      <div>
+        <span class="pill">+ ${state.signals.toLocaleString()} signals in context</span>
+        <span class="pill">+1 Industry Model pattern (zero PII)</span>
+        <span class="pill">routing weights live via API</span>
+        <span class="pill">next loop pre-warmed</span>
+      </div>
+    </div>
+    <div class="think" style="margin-top:18px"><span class="lead">What changed for the marketer</span>
+      <span class="ln show">They declared one goal and the system explained the shift, acted on it, and got smarter — no flowchart authored, no dashboard interpreted.</span>
+    </div>
+    <div class="actions">
+      <button class="btn primary" id="again">Run the loop again ▸</button>
+      <button class="btn ghost" id="reset">New goal</button>
+      <span class="hint">Each turn compounds: deeper context → sharper reasoning.</span>
+    </div>`;
+  document.getElementById('again').onclick = renderIngest;
+  document.getElementById('reset').onclick = renderDeclare;
+}
+
+// boot
+renderDeclare();
+</script>
+</body>
+</html>
