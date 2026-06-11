@@ -38,7 +38,7 @@
 
   // inject styles
   const css = `
-  .tour-block{position:fixed;inset:0;z-index:90;background:transparent}
+  .tour-block{position:fixed;inset:0;z-index:90;background:transparent;display:none}
   .tour-block.dim{background:rgba(11,16,34,.74)}
   .tour-ring{position:fixed;z-index:91;border:2px solid #fff;border-radius:12px;box-shadow:0 0 0 9999px rgba(11,16,34,.74);pointer-events:none;display:none;transition:all .25s ease}
   .tour-ring.on{animation:tourpulse 1.7s infinite}

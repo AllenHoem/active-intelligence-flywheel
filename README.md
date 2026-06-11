@@ -34,7 +34,6 @@ To preview locally: `python3 -m http.server` from this directory, then open `htt
 
 - `Active_Intelligence_Strategic_Blueprint_v2.docx` — the full memo (semantic layers, cross-layer inferencing, the hybrid LLM×ML "scores ground the LLM" thesis, tenant→industry→global modeling, phased rollout).
 - `Active_Intelligence_Architecture.png` / `.svg` — the revised block diagram.
-- `active_intelligence_flywheel.html` — an earlier single-screen Flywheel loop walkthrough.
 
 ## File tree
 
@@ -44,7 +43,6 @@ To preview locally: `python3 -m http.server` from this directory, then open `htt
 ├── README.md
 ├── Active_Intelligence_Strategic_Blueprint_v2.docx
 ├── Active_Intelligence_Architecture.png / .svg
-├── active_intelligence_flywheel.html
 └── prototype/
     ├── index.html              # Home
     ├── reports.html            # Active Intelligence report

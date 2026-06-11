@@ -27,7 +27,7 @@ a{color:inherit;text-decoration:none}
 .rail .spacer{flex:1}
 
 /* ---- Top bar ---- */
-.main{display:flex;flex-direction:column;min-width:0}
+.main{display:flex;flex-direction:column;min-width:0;min-height:0}
 .topbar{height:54px;background:var(--bar);display:flex;align-items:center;gap:14px;padding:0 16px;color:#cdd6ee;z-index:20}
 .tb-title{font-weight:700;color:#fff;font-size:15px;display:flex;align-items:center;gap:9px}
 .tb-title .dot{width:7px;height:7px;border-radius:50%;background:#7c5cff;box-shadow:0 0 10px #7c5cff}
@@ -45,7 +45,7 @@ a{color:inherit;text-decoration:none}
 .avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#f0a05a,#d8417e);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px}
 
 /* ---- View area ---- */
-.view{flex:1;overflow:auto}
+.view{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden}
 
 /* HOME hero */
 .hero{background:linear-gradient(118deg,#e8763a 0%,#d8417e 36%,#a93b95 58%,#5b43c9 100%);padding:34px 30px 30px;color:#fff;position:relative}

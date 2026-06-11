@@ -43,7 +43,19 @@
   };
   window.Shell = Shell;
 
+  // defensive: strip git merge-conflict markers a bad merge may have left in the served HTML
+  function stripConflicts(){
+    try{
+      const re = /^(<{7}|={7}|>{7})/;
+      const walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null);
+      const kill = []; let n;
+      while((n = walk.nextNode())){ if(re.test((n.nodeValue||'').trim())) kill.push(n); }
+      kill.forEach(t=>{ if(t.parentNode) t.parentNode.removeChild(t); });
+    }catch(e){}
+  }
+
   function build(){
+    stripConflicts();
     const railItems = NAV.map(n=>{
       const active = n.key===page ? ' active' : '';
       const tag = n.href==='#' ? 'div' : 'a';
