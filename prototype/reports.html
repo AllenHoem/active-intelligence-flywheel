@@ -3,84 +3,251 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Active Intelligence — Reports</title>
+<title>Active Intelligence — Explore</title>
 <link rel="stylesheet" href="assets/app.css">
+<style>
+  .explore{display:grid;grid-template-columns:230px 1fr;min-height:100%}
+  .exnav{background:#fff;border-right:1px solid var(--line);padding:18px 12px}
+  .exnav .kick{font-size:10.5px;font-weight:800;letter-spacing:.8px;color:var(--muted);text-transform:uppercase;margin:14px 8px 7px}
+  .exnav .kick:first-child{margin-top:2px}
+  .exstart{display:flex;align-items:center;gap:9px;font-size:13px;color:#33405a;font-weight:600;padding:8px 9px;border-radius:8px;cursor:pointer}
+  .exstart:hover{background:#f3f6fb}
+  .exstart .d{width:9px;height:9px;border-radius:3px}
+  .exsug{font-size:12.3px;color:#475569;padding:8px 9px;border-radius:8px;cursor:pointer;display:flex;gap:7px;align-items:flex-start;line-height:1.35}
+  .exsug:hover{background:#f6f2ff;color:#5b2bd6}
+  .exsug .s{color:#7c5cff;flex-shrink:0}
+  .pinned{background:#f7f9fc;border:1px solid var(--line);border-radius:10px;padding:10px 11px;margin:0 6px}
+  .pinned .pt{font-size:12px;font-weight:700;color:#33405a;line-height:1.35}
+  .pinned .pm{font-size:11px;color:var(--muted);margin-top:4px}
+
+  .exmain{padding:22px 26px 60px;overflow:auto}
+  .exkick{font-size:11px;font-weight:800;letter-spacing:1px;color:#7c5cff;text-transform:uppercase;display:flex;align-items:center;gap:7px}
+  .exmain h1{font-size:24px;margin:4px 0 3px}
+  .exmain .tag{color:var(--muted);font-size:13.5px;margin:0 0 16px}
+
+  .askwrap{background:#0c1020;border:1px solid #1d2742;border-radius:14px;padding:13px 14px;margin-bottom:12px}
+  .askrow{display:flex;align-items:center;gap:10px}
+  .askrow input{flex:1;background:transparent;border:none;outline:none;color:#e8eefb;font-size:15px;font-family:inherit}
+  .askrow input::placeholder{color:#7d8bb0}
+  .asksend{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#7c5cff,#d8417e);color:#fff;border:none;cursor:pointer;font-size:16px;flex-shrink:0}
+  .chiprow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+  .spark{background:#f2eefe;color:#6034d6;border:1px solid #e5dcfb;border-radius:20px;padding:7px 13px;font-size:12.5px;font-weight:700;cursor:pointer;display:inline-flex;gap:6px;align-items:center;transition:.12s}
+  .spark:hover{background:#e9e0fe}
+  .spark .s{filter:saturate(1.4)}
+  .spark.solid{background:linear-gradient(135deg,#7c5cff,#d8417e);color:#fff;border:none}
+
+  .overview{background:linear-gradient(135deg,#101a36,#1a2444);color:#e8eefb;border-radius:14px;padding:18px 20px;margin-bottom:22px;position:relative}
+  .overview .ai{position:absolute;top:16px;right:18px}
+  .overview h4{margin:0 0 6px;font-size:13px;color:#9fc0ee;font-weight:700}
+  .overview p{margin:0 0 10px;font-size:14px;line-height:1.65}
+  .overview p:last-child{margin:0}
+  .overview b{color:#fff}.overview .gd{color:#7fe8b0;font-weight:700}.overview .bd{color:#ff9d8e;font-weight:700}
+
+  .seclab{font-size:13px;font-weight:800;color:#33405a;margin:0 0 12px;display:flex;align-items:center;gap:8px}
+  .insights{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+  @media(max-width:1000px){.insights{grid-template-columns:1fr}}
+  .icard{background:#fff;border:1px solid var(--line);border-radius:13px;padding:15px 16px;transition:.15s}
+  .icard:hover{box-shadow:0 6px 20px rgba(20,40,80,.09)}
+  .icard.feature{grid-column:1 / -1;background:linear-gradient(135deg,#fff,#f7f5ff);border-color:#e5dcfb}
+  .itags{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap}
+  .itag{font-size:10.5px;font-weight:700;color:#56627a;background:#eef2f9;border-radius:6px;padding:3px 8px}
+  .ihead{font-size:16px;font-weight:800;line-height:1.3;margin-bottom:6px;color:var(--ink)}
+  .itrend{display:flex;align-items:baseline;gap:9px;margin-bottom:10px}
+  .itrend .v{font-size:15px;font-weight:800}
+  .itrend .l{font-size:12.5px;color:var(--muted)}
+  .up{color:var(--good)}.down{color:var(--bad)}
+  .iexplore{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .ground2{font-size:11.3px;color:#8a93a6;margin-top:10px;cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+  .ground2:hover{color:#56627a}
+  .gdetail{display:none;margin-top:8px;background:#0c1020;color:#cfdaf0;border-radius:8px;padding:9px 11px;font-size:11.5px;line-height:1.55}
+  .gdetail.open{display:block}
+  .gdetail code{color:#7fe8b0;font-family:Consolas,monospace}
+
+  .thread{margin:0 0 22px}
+  .tq{display:flex;gap:9px;align-items:flex-start;margin:14px 0 8px}
+  .tq .qb{background:#eef2f9;border-radius:12px 12px 12px 3px;padding:9px 13px;font-size:13.5px;font-weight:600;color:#1b2333}
+  .ta{display:flex;gap:10px;align-items:flex-start}
+  .ta .av{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#7c5cff,#d8417e);flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:14px}
+  .ta .ab{background:#fff;border:1px solid var(--line);border-radius:12px 12px 12px 3px;padding:13px 15px;flex:1;animation:fade .35s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+  .ta .ab p{margin:0 0 9px;font-size:13.7px;line-height:1.6}
+  .ta .ab b{color:var(--ink)} .ta .ab .gd{color:#16895a;font-weight:700}.ta .ab .bd{color:#c44536;font-weight:700}
+  .ta .ev{font-size:11.3px;color:#8a93a6;border-top:1px dashed var(--line);padding-top:8px;margin-top:4px}
+  .ta .fl{display:flex;gap:7px;flex-wrap:wrap;margin-top:11px}
+  .clearx{font-size:11.5px;color:var(--muted);cursor:pointer;margin-left:6px}
+</style>
 </head>
-<body data-page="reports" data-title="Reports · Active Intelligence">
+<body data-page="reports" data-title="Active Intelligence">
 <script src="assets/data.js"></script>
 <script src="assets/shell.js"></script>
 <script>
-function layerPanel(key){
-  const L = DATA.REPORT[key];
-  const metrics = L.metrics.map((m,i)=>`
-    <div class="metric">
-      <div class="mt"><span>${m.t}</span></div>
-      <div class="mv"><span class="big">${m.v}</span><span class="chg" style="color:${m.good?'var(--good)':'var(--bad)'}">${m.chg}</span></div>
-      <div class="bar"><i style="width:${m.pct}%;background:${m.good?'var(--good)':'var(--warn)'}"></i></div>
-      <div class="ground" data-g="${key}-${i}"><span class="gi">&#9673;</span><span>Grounded by — show evidence</span></div>
-      <div class="gdetail" id="g-${key}-${i}">${m.g}</div>
-    </div>`).join('');
-  return `<div class="lpanel">
-    <div class="lp-head" style="background:${L.color}"><span style="width:9px;height:9px;border-radius:2px;background:#ffffffcc;display:inline-block"></span> Semantic ${L.name}</div>
-    <div class="lp-body"><div style="font-size:11.5px;color:#7a869e;margin-bottom:11px">${L.q}</div>${metrics}</div>
-  </div>`;
+const SUGGEST = [
+  {label:'Why did engagement dip this week?', id:'dip'},
+  {label:'Who’s about to churn?', id:'churn'},
+  {label:'What content is winning, and for whom?', id:'content'},
+  {label:'Where is revenue at risk?', id:'revenue'}
+];
+
+const INSIGHTS = [
+  {feature:false, tags:['Audience','Campaigns'], head:'Mid-tier accounts are quietly churning — and it’s fatigue, not price',
+   trend:['2.3×', 'baseline churn in this cohort','down'],
+   ground:'62% of at-risk accounts now exceed 4 emails/week; <code>email_freq_7d</code> is the top driver this week (Industry model).',
+   explore:[{label:'Who exactly is at risk?',id:'churn'},{label:'What would win them back?',id:'winback'}]},
+  {feature:false, tags:['Content'], head:'Your loyalty creative is your strongest re-engagement asset',
+   trend:['0.71', 'impact — best of 6 variants for this cohort','up'],
+   ground:'Predictive Cohort Impact, validated vs Industry model. Top driver: <code>loyalty_offer_present</code>.',
+   explore:[{label:'Where else could this win?',id:'content'},{label:'Draft a variant',id:'variant'}]},
+  {feature:false, tags:['Audience','Channels'], head:'SMS is pulling ahead of email for your at-risk accounts',
+   trend:['0.79', 'SMS affinity · ▲ +0.11 this week','up'],
+   ground:'Behavior modeling at the individual level — channel preference shifted email→SMS over 21 days.',
+   explore:[{label:'Why the shift?',id:'shift'},{label:'Move a campaign to SMS',id:'play'}]},
+  {feature:true, tags:['Audience × Content × Channels'], head:'The opportunity: a loyalty offer over SMS to 3,184 mid-tier accounts',
+   trend:['+18 pts', 'projected retention if you act this week','up'],
+   ground:'Combines all three signals above — the kind of cross-cutting play a single dashboard can’t surface.',
+   explore:[{label:'Show me the math',id:'math'}], play:true}
+];
+
+// canned exploration responses (id -> {q, a(html), ev, follow[]})
+const EXPL = {
+  dip:{q:'Why did engagement dip this week?',
+    a:'<p>Engagement didn’t dip across the board — it dropped in one place: your <b>mid-tier cohort</b>. The cause is <span class="bd">email fatigue</span>, not a weak offer. These accounts are getting 4+ emails a week and are price-sensitive, so opens and clicks are sliding while churn climbs to <span class="bd">2.3× baseline</span>.</p>',
+    ev:'Grounded in Campaign + Audience signals · Industry model · confidence 0.86',
+    follow:[{label:'Who’s most affected?',id:'churn'},{label:'What fixes it?',id:'winback'}]},
+  churn:{q:'Who’s about to churn?',
+    a:'<p><b>3,184 mid-tier accounts</b> are at elevated risk. They share three traits: more than 4 emails a week, a price-sensitivity signal, and a renewal inside 60 days. 62% show declining opens over the last 21 days.</p>',
+    ev:'Audience + Campaign signals · Industry model · confidence 0.86',
+    follow:[{label:'What would win them back?',id:'winback'},{label:'How much revenue is at risk?',id:'revenue'}]},
+  winback:{q:'What would win them back?',
+    a:'<p>Cap email to <b>1/week</b> for this cohort and lead with a <span class="gd">loyalty offer over SMS</span>. In matched controls, that combination lifted retention <span class="gd">+18 points</span> for comparable accounts in your vertical — far above another discount blast, which the model scores negatively here.</p>',
+    ev:'Campaign success 0.83 · SMS affinity 0.79 · loyalty creative impact 0.71',
+    follow:[{label:'Turn this into a play',id:'play'},{label:'Which creative wins?',id:'variant'}]},
+  content:{q:'What content is winning, and for whom?',
+    a:'<p>Your <b>loyalty / appreciation</b> creative is the standout — impact <span class="gd">0.71</span>, the best of six variants for at-risk mid-tier accounts. Promotional / discount framing under-indexes for this group. For new high-consideration leads, <b>integration-proof</b> content wins instead — context changes the answer.</p>',
+    ev:'Predictive Cohort Impact across segments · OCR/Vision-parsed brand assets',
+    follow:[{label:'Draft a variant',id:'variant'},{label:'Who responds to it?',id:'churn'}]},
+  revenue:{q:'Where is revenue at risk?',
+    a:'<p>The single biggest exposure is the mid-tier retention gap: roughly <b>$31K</b> of renewal revenue sits with the 3,184 at-risk accounts. Acting on the SMS + loyalty play recovers most of it; across all open goals this week the recoverable total is about <span class="gd">$48K</span>.</p>',
+    ev:'Projected from cohort size × renewal value × modeled lift · Industry model',
+    follow:[{label:'Show me the play',id:'play'},{label:'Who’s at risk?',id:'churn'}]},
+  shift:{q:'Why the shift to SMS?',
+    a:'<p>It’s a response to the fatigue. As email frequency climbed, this cohort’s email engagement fell but their <b>SMS</b> opens and clicks held — so the model’s channel-preference signal moved email→SMS (<span class="gd">affinity 0.79, ▲ +0.11</span>). It’s not that SMS is universally better; it’s better <i>for these people, right now</i>.</p>',
+    ev:'Individual-level behavior modeling over a 21-day window',
+    follow:[{label:'Move a campaign to SMS',id:'play'},{label:'Who else prefers SMS?',id:'churn'}]},
+  variant:{q:'Draft a creative variant',
+    a:'<p>Here’s a starting draft, grounded in what scores for this cohort: <i>“You’ve been with us a while — here’s 15% off your renewal as a thank-you. Lock it in by Friday.”</i> Warm, loyalty-framed, no hard discount language. The LLM generates it on demand; the model scores it before it ships.</p>',
+    ev:'Generated against brand_voice_id: ac_default · pre-scored at impact 0.71',
+    follow:[{label:'Turn this into a play',id:'play'},{label:'Show another angle',id:'content'}]},
+  math:{q:'Show me the math behind +18 pts',
+    a:'<p>3,184 at-risk accounts. Matched-control retention with the SMS + loyalty play ran <span class="gd">+18 pts</span> over the do-nothing baseline for comparable cohorts in your vertical. Capping email removes the top churn driver (a negative-value action in the model), and SMS delivery matches where this cohort now engages. Confidence 0.86 on the Industry model.</p>',
+    ev:'Gradient Boosting + cMAB on 2.1K comparable journeys · Industry tier',
+    follow:[{label:'Review the grounded play',id:'play'},{label:'How much revenue?',id:'revenue'}]},
+  play:{q:'Turn this into a play',
+    a:'<p>Ready when you are — I’ve assembled the grounded campaign: the 3,184-account cohort, email capped to 1/week, SMS loyalty offer, best-scoring creative, and send-time optimized per person. The reasoning travels with it so you can see exactly why before you launch.</p>',
+    ev:'Opens in the campaign builder · grounding confidence 86%',
+    follow:[{label:'Open the builder →',href:'builder.html?id=c1'}]}
+};
+
+function explainHTML(o){
+  const follow = (o.follow||[]).map(f=> f.href
+    ? `<a class="spark solid" href="${f.href}"><span class="s">→</span> ${f.label}</a>`
+    : `<button class="spark" data-exp="${f.id}"><span class="s">✨</span> ${f.label}</button>`).join('');
+  return `<div class="tq"><div class="qb">${o.q}</div></div>
+    <div class="ta"><div class="av">✦</div><div class="ab">${o.a}<div class="ev">${o.ev}</div><div class="fl">${follow}</div></div></div>`;
+}
+
+function freeform(text){
+  return {q:text,
+    a:`<p>Good question. The dominant signal across your account right now is <b>email fatigue driving mid-tier churn</b> — that’s where I’d start. I can dig into any angle: the at-risk people, the content that re-engages them, or the revenue exposure.</p>`,
+    ev:'Grounded in this week’s Campaign, Audience, and Content signals',
+    follow:[{label:'Who’s at risk?',id:'churn'},{label:'What would win them back?',id:'winback'},{label:'Where’s revenue at risk?',id:'revenue'}]};
 }
 
 function render(view, ctx){
-  const role = ctx.role;
-  const execNote = role==='exec'
-    ? `<p style="font-size:12.5px;color:#9fc0ee;margin-top:4px">Executive lens: this maps to <b>$31K</b> of the $48K at-risk revenue recoverable this week.</p>`
-    : role==='analyst'
-    ? `<p style="font-size:12.5px;color:#9fc0ee;margin-top:4px">Analyst lens: scores below default to the <b>Industry</b> tier — tenant data is too sparse (AUC 0.67) to ground reliably.</p>`
-    : `<p style="font-size:12.5px;color:#9fc0ee;margin-top:4px">Every figure below is traceable to a model score — click <b>“Grounded by”</b> on any metric to see the evidence.</p>`;
+  const sug = SUGGEST.map(s=>`<button class="spark" data-exp="${s.id}"><span class="s">✨</span> ${s.label}</button>`).join('');
+  const sideSug = SUGGEST.map(s=>`<div class="exsug" data-exp="${s.id}"><span class="s">✨</span> ${s.label}</div>`).join('');
+  const lenses = [['Everything','all','#7c5cff'],['Campaigns','campaigns','#2E75B6'],['Segments','churn','#A8557A'],['Content','content','#6E5AA6']]
+    .map(([n,id,c])=>`<div class="exstart" data-exp="${id==='all'?'dip':id}"><span class="d" style="background:${c}"></span>${n}</div>`).join('');
+  const insights = INSIGHTS.map((it,i)=>{
+    const tags = it.tags.map(t=>`<span class="itag">${t}</span>`).join('');
+    const ex = it.explore.map(e=>`<button class="spark" data-exp="${e.id}"><span class="s">✨</span> ${e.label}</button>`).join('');
+    const play = it.play ? `<a class="spark solid" href="builder.html?id=c1"><span class="s">→</span> Review the grounded play</a>` : '';
+    return `<div class="icard ${it.feature?'feature':''}">
+      <div class="itags">${tags}</div>
+      <div class="ihead">${it.head}</div>
+      <div class="itrend"><span class="v ${it.trend[2]}">${it.trend[0]}</span><span class="l">${it.trend[1]}</span></div>
+      <div class="iexplore">${ex}${play}</div>
+      <div class="ground2" data-g="${i}">◉ How do I know this?</div>
+      <div class="gdetail" id="ig-${i}">${it.ground}</div>
+    </div>`;
+  }).join('');
+
+  const roleNote = ctx.role==='exec'
+    ? `<p style="font-size:12.5px;color:#9fc0ee;margin-top:2px">Executive lens: this is ~$31K of the $48K recoverable this week. Ask me “where is revenue at risk?” to see the portfolio.</p>`
+    : ctx.role==='analyst'
+    ? `<p style="font-size:12.5px;color:#9fc0ee;margin-top:2px">Analyst lens: every figure defaults to the Industry tier (tenant AUC 0.67 is too sparse). Ask “show me the math” on any insight.</p>`
+    : `<p style="font-size:12.5px;color:#9fc0ee;margin-top:2px">Tap a ✨ prompt on any insight to go deeper — or ask your own question above.</p>`;
+
   view.innerHTML = `
-   <div class="rep">
-     <div class="subnav">
-       <h3>Reports</h3>
-       <div class="grp">Automations <span>&rsaquo;</span></div>
-       <div class="grp">Contacts <span>&rsaquo;</span></div>
-       <div class="grp">Campaigns <span>&#709;</span></div>
-       <div class="it">All Campaigns Performance</div>
-       <div class="it">Email Client Trends</div>
-       <div class="it">Predictive Content</div>
-       <div class="it on">✨ Active Intelligence</div>
-       <div class="grp">WhatsApp <span>&rsaquo;</span></div>
-       <div class="grp">Website <span>&rsaquo;</span></div>
-       <div class="it">Marketing Revenue</div>
-       <div class="it">Ecommerce Dashboard</div>
-     </div>
-     <div class="repmain">
-       <div class="crumbs">Reports / Campaigns / Active Intelligence</div>
-       <h1>Active Intelligence</h1>
-       <div class="filters">
-         <span class="filt">Goal: Retention &#709;</span>
-         <span class="filt">Segment: Mid-tier &#709;</span>
-         <span class="filt">Model tier: Industry &#709;</span>
-         <span class="filt range">Date range: 05/11/2026 – 06/10/2026 &#709;</span>
-       </div>
-       <div class="overview">
-         <span class="ai">AI OVERVIEW</span>
-         <h4>Freeform summary — generated &amp; grounded ${new Date().toLocaleDateString()}</h4>
-         <p>Retention risk rose in your <b>mid-tier cohort</b> this period. The driver is not offer weakness — it’s <span class="bd">email fatigue</span>: 62% of at-risk accounts now exceed 4 emails/week, and they’re also price-sensitive, pushing churn to <span class="bd">2.3× baseline</span>.</p>
-         <p>The grounded path forward is a <span class="gd">loyalty offer delivered over SMS</span> with email capped — the Campaign layer scores this shape at <span class="gd">0.83</span> for your vertical, and the Individual layer shows SMS affinity rising to <span class="gd">0.79</span>. Projected lift: <span class="gd">+18 pts retention</span> on the cohort.</p>
-         ${execNote}
-       </div>
-       <div class="layers">${['content','campaign','individual'].map(layerPanel).join('')}</div>
-       <div style="margin-top:18px"><a class="btn primary" href="builder.html?id=c1">Act on this — review the grounded play &rarr;</a></div>
-     </div>
-   </div>`;
+  <div class="explore">
+    <div class="exnav">
+      <div class="kick">Start from</div>
+      ${lenses}
+      <div class="kick">Suggested explorations</div>
+      ${sideSug}
+      <div class="kick">Pinned</div>
+      <div class="pinned"><div class="pt">Mid-tier retention watch</div><div class="pm">+18 pts opportunity · updated today</div></div>
+    </div>
+    <div class="exmain">
+      <div class="exkick">✦ ACTIVE INTELLIGENCE</div>
+      <h1>What’s happening — and where to act next</h1>
+      <p class="tag">Start anywhere. Every insight is a thread you can pull.</p>
+
+      <div class="askwrap">
+        <div class="askrow">
+          <input id="ask" placeholder="Ask anything about your campaigns, segments, or content…">
+          <button class="asksend" id="asksend">↑</button>
+        </div>
+      </div>
+      <div class="chiprow">${sug}</div>
+
+      <div id="thread" class="thread"></div>
+
+      <div class="overview">
+        <span class="ai">AI</span>
+        <h4>Here’s what I’m seeing this week</h4>
+        <p>Retention risk rose in your <b>mid-tier cohort</b>. The driver isn’t your offer — it’s <span class="bd">email fatigue</span>: 62% of at-risk accounts now exceed 4 emails/week, and they’re price-sensitive, pushing churn to <span class="bd">2.3× baseline</span>.</p>
+        <p>The grounded path forward: a <span class="gd">loyalty offer over SMS</span> with email capped. Projected lift <span class="gd">+18 pts retention</span> on the cohort.</p>
+        ${roleNote}
+      </div>
+
+      <div class="seclab">Top insights <span class="ai">GROUNDED</span></div>
+      <div class="insights">${insights}</div>
+    </div>
+  </div>`;
+
+  const ask = document.getElementById('ask');
+  document.getElementById('asksend').onclick = ()=>{ if(ask.value.trim()){ runExplore(freeform(ask.value.trim())); ask.value=''; } };
+  ask.onkeydown = e=>{ if(e.key==='Enter' && ask.value.trim()){ runExplore(freeform(ask.value.trim())); ask.value=''; } };
 }
 
+function runExplore(o){
+  const thread = document.getElementById('thread'); if(!thread) return;
+  thread.insertAdjacentHTML('beforeend', explainHTML(o));
+  const last = thread.lastElementChild;
+  // bring the new answer into view
+  (last.previousElementSibling || last).scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+// delegated interactions (attached once)
 document.addEventListener('click', e=>{
-  const g = e.target.closest('.ground'); if(!g) return;
-  document.getElementById('g-'+g.dataset.g).classList.toggle('open');
+  const exp = e.target.closest('[data-exp]');
+  if(exp){ const o = EXPL[exp.dataset.exp]; if(o) runExplore(o); return; }
+  const g = e.target.closest('.ground2');
+  if(g){ document.getElementById('ig-'+g.dataset.g).classList.toggle('open'); return; }
 });
 
 Shell.mount(render);
 </script>
-<<<<<<< HEAD
 <script src="assets/tour.js"></script>
-=======
->>>>>>> origin/main
 </body>
 </html>

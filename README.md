@@ -14,11 +14,8 @@ The prototype is a self-contained static site (no build step, no dependencies) u
 | Automate for me | `prototype/automations.html` | An agent-drafted retention journey where every node ties to a layer score |
 | About | `prototype/about.html` | Overview, the architecture diagram, and links to the strategy docs |
 
-<<<<<<< HEAD
 On first visit a **guided product tour** auto-starts, walking through what's new on each page ("Step x of y", Next/Back/Skip) — it carries you from the home feed into Reports, the Builder, and Automations. Replay it anytime with the **"✨ What's new"** pill (bottom-left).
 
-=======
->>>>>>> origin/main
 Use the **role switch** (top-right: Marketing Mgr / Executive / Analyst) and the **notification bell** — both re-frame the experience per audience, and the choice persists across pages.
 
 ## Publish on GitHub Pages
@@ -37,7 +34,6 @@ To preview locally: `python3 -m http.server` from this directory, then open `htt
 
 - `Active_Intelligence_Strategic_Blueprint_v2.docx` — the full memo (semantic layers, cross-layer inferencing, the hybrid LLM×ML "scores ground the LLM" thesis, tenant→industry→global modeling, phased rollout).
 - `Active_Intelligence_Architecture.png` / `.svg` — the revised block diagram.
-- `active_intelligence_flywheel.html` — an earlier single-screen Flywheel loop walkthrough.
 
 ## File tree
 
@@ -47,7 +43,6 @@ To preview locally: `python3 -m http.server` from this directory, then open `htt
 ├── README.md
 ├── Active_Intelligence_Strategic_Blueprint_v2.docx
 ├── Active_Intelligence_Architecture.png / .svg
-├── active_intelligence_flywheel.html
 └── prototype/
     ├── index.html              # Home
     ├── reports.html            # Active Intelligence report
@@ -57,10 +52,8 @@ To preview locally: `python3 -m http.server` from this directory, then open `htt
     └── assets/
         ├── app.css             # shared styles
         ├── shell.js            # nav rail, topbar, role switch, notifications
-<<<<<<< HEAD
         ├── tour.js             # cross-page first-run product tour
-=======
->>>>>>> origin/main
+        ├── tour.js             # cross-page first-run product tour
         ├── data.js             # shared data model
         └── architecture.png
 ```

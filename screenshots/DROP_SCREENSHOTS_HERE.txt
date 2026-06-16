@@ -1,0 +1,3 @@
+Copy the 4 prototype screenshots into THIS folder (any filenames are fine).
+Claude will rename them to home.png / why.png / explore.png / builder.png
+and embed them into the strategic blueprint (v4, section 9.1).

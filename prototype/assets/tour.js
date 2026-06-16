@@ -15,8 +15,8 @@
       title:'One workspace, every role',
       body:'Switch between Marketing Manager, Executive, and Analyst — the feed and the notification bell (top-right) reframe for you. Your choice follows you across the app.' },
     { page:'reports', href:'reports.html', target:'.overview',
-      title:'Reports that explain themselves',
-      body:'A freeform AI overview tells you what changed and why. Then drill into the Content, Campaign, and Individual layers — every number traces back to a model score.' },
+      title:'Explore — don’t report',
+      body:'Active Intelligence surfaces plain-language insights and suggested ✨ explorations. Pull any thread — ask your own question, or turn an insight straight into a play. The evidence is one click away when you want it.' },
     { page:'builder', href:'builder.html?id=c1', target:'.gpanel',
       title:'From insight to launch',
       body:'Open a play and the reasoning travels with it: predicted lift, model tier, and the grounding scores sit right beside the campaign you’re about to send.' },
@@ -38,7 +38,7 @@
 
   // inject styles
   const css = `
-  .tour-block{position:fixed;inset:0;z-index:90;background:transparent}
+  .tour-block{position:fixed;inset:0;z-index:90;background:transparent;display:none}
   .tour-block.dim{background:rgba(11,16,34,.74)}
   .tour-ring{position:fixed;z-index:91;border:2px solid #fff;border-radius:12px;box-shadow:0 0 0 9999px rgba(11,16,34,.74);pointer-events:none;display:none;transition:all .25s ease}
   .tour-ring.on{animation:tourpulse 1.7s infinite}

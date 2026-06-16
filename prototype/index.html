@@ -13,7 +13,7 @@
 function card(c){
   const chips = c.chips.map(x=>`<span class="gchip"><span class="lyr" style="background:${DATA.LYR[x.l]||'#888'}"></span>${x.t} <b>${x.v}</b></span>`).join('');
   const scores = c.why.scores.map(s=>`<div class="scorerow"><span class="sc-m">${s.m}</span><span class="sc-n">${s.n}</span></div>`).join('');
-  const cta = c.build ? `<a class="btn primary" href="builder.html?id=${c.id}">Review &amp; launch</a>` : `<a class="btn primary" href="reports.html">Open report</a>`;
+  const cta = c.build ? `<a class="btn primary" href="builder.html?id=${c.id}">Review &amp; launch</a>` : `<a class="btn primary" href="reports.html">Explore intelligence</a>`;
   return `<div class="pcard" data-id="${c.id}">
     <div class="pc-top">
       <div class="pc-flag"><span class="flag ${c.flag}">${c.flagText}</span>
@@ -82,9 +82,6 @@ document.addEventListener('click', e=>{
 
 Shell.mount(render);
 </script>
-<<<<<<< HEAD
 <script src="assets/tour.js"></script>
-=======
->>>>>>> origin/main
 </body>
 </html>

@@ -66,23 +66,25 @@
 <rect x="832.0" y="380.0" width="336.0" height="26.0" rx="7" fill="#ffffff" stroke="#cdd8e6" stroke-width="1"/>
 <text x="1000.0" y="397.0" font-family="Arial, Helvetica, sans-serif" font-size="11.6" fill="#1c2530" font-weight="600" text-anchor="middle" letter-spacing="0">Who responds, and how</text>
 <line x1="1000.0" y1="231.0" x2="1000.0" y2="265.0" stroke="#cdd8e6" stroke-width="1.7" marker-end="url(#ar)"/>
-<text x="60.0" y="446.0" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#5b6b7e" font-weight="700" text-anchor="start" letter-spacing="1.5">HYBRID REASONING &#215; EXECUTION</text>
+<text x="60.0" y="446.0" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#5b6b7e" font-weight="700" text-anchor="start" letter-spacing="1.5">HYBRID ENGINE — ML DECIDES &#183; LLM STRATEGIZES</text>
 <rect x="60.0" y="458.0" width="300.0" height="130.0" rx="12" fill="url(#gllm)" stroke="none" stroke-width="1"/>
-<text x="210.0" y="483.0" font-family="Arial, Helvetica, sans-serif" font-size="14.5" fill="#ffffff" font-weight="700" text-anchor="middle" letter-spacing="0">Frontier LLM Reasoning</text>
-<text x="210.0" y="501.0" font-family="Arial, Helvetica, sans-serif" font-size="10.5" fill="#a9c4e6" font-weight="normal" text-anchor="middle" letter-spacing="0">extended thinking · synthesis · language</text>
-<text x="210.0" y="522.0" font-family="Arial, Helvetica, sans-serif" font-size="11.8" fill="#e7eefa" font-weight="500" text-anchor="middle" letter-spacing="0">&#8226; AI Content Selection</text>
-<text x="210.0" y="544.0" font-family="Arial, Helvetica, sans-serif" font-size="11.8" fill="#e7eefa" font-weight="500" text-anchor="middle" letter-spacing="0">&#8226; AI Channel Mix + AI Send</text>
-<text x="210.0" y="566.0" font-family="Arial, Helvetica, sans-serif" font-size="11.8" fill="#e7eefa" font-weight="500" text-anchor="middle" letter-spacing="0">&#8226; AI Campaign Prioritization</text>
+<text x="210.0" y="483.0" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#ffffff" font-weight="700" text-anchor="middle" letter-spacing="0">Frontier LLM — Strategy &amp; Generation</text>
+<text x="210.0" y="501.0" font-family="Arial, Helvetica, sans-serif" font-size="10.5" fill="#a9c4e6" font-weight="normal" text-anchor="middle" letter-spacing="0">on demand · not in the real-time loop</text>
+<text x="210.0" y="522.0" font-family="Arial, Helvetica, sans-serif" font-size="11.2" fill="#e7eefa" font-weight="500" text-anchor="middle" letter-spacing="0">&#8226; Synthesizes strategy from the scores</text>
+<text x="210.0" y="544.0" font-family="Arial, Helvetica, sans-serif" font-size="11.2" fill="#e7eefa" font-weight="500" text-anchor="middle" letter-spacing="0">&#8226; Generates ad-hoc content on demand</text>
+<text x="210.0" y="566.0" font-family="Arial, Helvetica, sans-serif" font-size="11.2" fill="#e7eefa" font-weight="500" text-anchor="middle" letter-spacing="0">&#8226; Explains the why in plain terms</text>
 <rect x="880.0" y="458.0" width="300.0" height="130.0" rx="12" fill="url(#gml)" stroke="none" stroke-width="1"/>
-<text x="1030.0" y="483.0" font-family="Arial, Helvetica, sans-serif" font-size="14.5" fill="#ffffff" font-weight="700" text-anchor="middle" letter-spacing="0">ML Scoring Models</text>
-<text x="1030.0" y="501.0" font-family="Arial, Helvetica, sans-serif" font-size="10" fill="#cdeede" font-weight="normal" text-anchor="middle" letter-spacing="0">the grounding layer — real performance, not web lore</text>
-<text x="1030.0" y="522.0" font-family="Arial, Helvetica, sans-serif" font-size="11.6" fill="#e4f6ec" font-weight="500" text-anchor="middle" letter-spacing="0">&#8226; Gradient Boosting</text>
-<text x="1030.0" y="544.0" font-family="Arial, Helvetica, sans-serif" font-size="11.6" fill="#e4f6ec" font-weight="500" text-anchor="middle" letter-spacing="0">&#8226; Contextual Multi-Armed Bandits</text>
-<text x="1030.0" y="566.0" font-family="Arial, Helvetica, sans-serif" font-size="11.6" fill="#e4f6ec" font-weight="500" text-anchor="middle" letter-spacing="0">&#8226; Predictive Impact / Success Scores</text>
+<text x="1030.0" y="483.0" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#ffffff" font-weight="700" text-anchor="middle" letter-spacing="0">ML — Real-Time Decisioning</text>
+<text x="1030.0" y="501.0" font-family="Arial, Helvetica, sans-serif" font-size="10" fill="#cdeede" font-weight="normal" text-anchor="middle" letter-spacing="0">deterministic · grounded · milliseconds</text>
+<text x="1030.0" y="520.0" font-family="Arial, Helvetica, sans-serif" font-size="11.2" fill="#e4f6ec" font-weight="500" text-anchor="middle" letter-spacing="0">&#8226; AI Channel Mix + Send</text>
+<text x="1030.0" y="540.0" font-family="Arial, Helvetica, sans-serif" font-size="11.2" fill="#e4f6ec" font-weight="500" text-anchor="middle" letter-spacing="0">&#8226; AI Content Selection</text>
+<text x="1030.0" y="560.0" font-family="Arial, Helvetica, sans-serif" font-size="11.2" fill="#e4f6ec" font-weight="500" text-anchor="middle" letter-spacing="0">&#8226; AI Campaign Prioritization</text>
+<text x="1030.0" y="577.0" font-family="Arial, Helvetica, sans-serif" font-size="9.5" fill="#bfe8d2" font-weight="600" text-anchor="middle" letter-spacing="0">Gradient Boosting &#183; cMAB &#183; predictive scores</text>
 <rect x="378.0" y="484.0" width="484.0" height="78.0" rx="12" fill="#fff7ed" stroke="#C98A2B" stroke-width="1.4"/>
-<text x="620.0" y="515.0" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#8a5a12" font-weight="800" text-anchor="middle" letter-spacing="0">Scores ground the LLM</text>
-<text x="620.0" y="535.0" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#8a5a12" font-weight="500" text-anchor="middle" letter-spacing="0">reasoning constrained to</text>
-<text x="620.0" y="551.0" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#8a5a12" font-weight="500" text-anchor="middle" letter-spacing="0">what actually performs</text>
+<text x="620.0" y="509.0" font-family="Arial, Helvetica, sans-serif" font-size="12.5" fill="#8a5a12" font-weight="800" text-anchor="middle" letter-spacing="0">Scores decide.</text>
+<text x="620.0" y="525.0" font-family="Arial, Helvetica, sans-serif" font-size="11.5" fill="#8a5a12" font-weight="700" text-anchor="middle" letter-spacing="0">LLM strategizes &amp; writes.</text>
+<text x="620.0" y="543.0" font-family="Arial, Helvetica, sans-serif" font-size="10.5" fill="#8a5a12" font-weight="500" text-anchor="middle" letter-spacing="0">every draft is scored</text>
+<text x="620.0" y="557.0" font-family="Arial, Helvetica, sans-serif" font-size="10.5" fill="#8a5a12" font-weight="500" text-anchor="middle" letter-spacing="0">before it ships</text>
 <line x1="876.0" y1="523.0" x2="865.0" y2="523.0" stroke="#16895A" stroke-width="2.6" marker-end="url(#arG)"/>
 <line x1="375.0" y1="523.0" x2="364.0" y2="523.0" stroke="#16895A" stroke-width="2.6" marker-end="url(#arG)"/>
 <line x1="240.0" y1="419.0" x2="240.0" y2="457.0" stroke="#cdd8e6" stroke-width="1.7" marker-end="url(#ar)"/>
