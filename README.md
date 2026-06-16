@@ -53,6 +53,7 @@ To preview locally: `python3 -m http.server` from this directory, then open `htt
         ├── app.css             # shared styles
         ├── shell.js            # nav rail, topbar, role switch, notifications
         ├── tour.js             # cross-page first-run product tour
+        ├── tour.js             # cross-page first-run product tour
         ├── data.js             # shared data model
         └── architecture.png
 ```
